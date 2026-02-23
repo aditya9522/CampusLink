@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_events"
+            android:icon="@drawable/ic_events"
+            android:title="@string/menu_events" />
+        <item
+            android:id="@+id/nav_chat"
+            android:icon="@android:drawable/stat_notify_chat"
+            android:title="@string/menu_direct_messages" />
+        <item
+            android:id="@+id/nav_travel"
+            android:icon="@drawable/ic_travel"
+            android:title="@string/menu_travel" />
+        <item
+            android:id="@+id/nav_communities"
+            android:icon="@drawable/ic_communities"
+            android:title="@string/menu_communities" />
+        <item
+            android:id="@+id/nav_clubs"
+            android:icon="@drawable/ic_clubs"
+            android:title="@string/menu_clubs" />
+        <item
+            android:id="@+id/nav_scanner"
+            android:icon="@drawable/ic_camera_black_24dp"
+            android:title="@string/menu_qr_checkin" />
+        <item
+            android:id="@+id/nav_profile"
+            android:icon="@android:drawable/ic_menu_myplaces"
+            android:title="@string/menu_my_profile" />
+        <item
+            android:id="@+id/nav_settings"
+            android:icon="@drawable/ic_settings_black_24dp"
+            android:title="@string/menu_settings" />
+    </group>
+</menu>

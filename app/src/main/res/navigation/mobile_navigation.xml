@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_events">
+
+    <fragment
+        android:id="@+id/nav_events"
+        android:name="com.example.eventapp.ui.events.EventsFragment"
+        android:label="@string/menu_events"
+        tools:layout="@layout/fragment_events" />
+
+    <fragment
+        android:id="@+id/nav_chat"
+        android:name="com.example.eventapp.ui.chat.ChatFragment"
+        android:label="Direct Messages"
+        tools:layout="@layout/fragment_chat" />
+
+    <fragment
+        android:id="@+id/nav_travel"
+        android:name="com.example.eventapp.ui.travel.TravelFragment"
+        android:label="@string/menu_travel"
+        tools:layout="@layout/fragment_travel" />
+
+    <fragment
+        android:id="@+id/nav_communities"
+        android:name="com.example.eventapp.ui.communities.CommunitiesFragment"
+        android:label="@string/menu_communities"
+        tools:layout="@layout/fragment_communities" />
+
+    <fragment
+        android:id="@+id/nav_clubs"
+        android:name="com.example.eventapp.ui.clubs.ClubsFragment"
+        android:label="@string/menu_clubs"
+        tools:layout="@layout/fragment_clubs" />
+
+    <fragment
+        android:id="@+id/nav_scanner"
+        android:name="com.example.eventapp.ui.scanner.ScannerFragment"
+        android:label="QR Check-in"
+        tools:layout="@layout/fragment_scanner" />
+
+    <fragment
+        android:id="@+id/nav_profile"
+        android:name="com.example.eventapp.ui.profile.ProfileFragment"
+        android:label="My Profile"
+        tools:layout="@layout/fragment_profile" />
+
+    <fragment
+        android:id="@+id/nav_settings"
+        android:name="com.example.eventapp.ui.settings.SettingsFragment"
+        android:label="@string/menu_settings"
+        tools:layout="@layout/fragment_settings" />
+
+    <fragment
+        android:id="@+id/nav_create_event"
+        android:name="com.example.eventapp.ui.events.CreateEventFragment"
+        android:label="Create Event"
+        tools:layout="@layout/fragment_create_event" />
+</navigation>

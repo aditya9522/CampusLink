@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Brand Colors (Indigo & Deep Pink/Lavender) -->
+    <color name="primaryColor">#4F46E5</color>
+    <color name="primaryLightColor">#818CF8</color>
+    <color name="primaryDarkColor">#3730A3</color>
+    <color name="secondaryColor">#EC4899</color>
+    <color name="secondaryLightColor">#F472B6</color>
+    <color name="secondaryDarkColor">#BE185D</color>
+    <color name="accentColor">#06B6D4</color>
+
+    <!-- UI States -->
+    <color name="liveIndicator">#EF4444</color>
+    <color name="successColor">#10B981</color>
+    <color name="warningColor">#F59E0B</color>
+
+    <!-- Neutral & Surfaces (Slate/Gray) -->
+    <color name="background">#F8FAFC</color>
+    <color name="surface">#FFFFFF</color>
+    <color name="textPrimary">#0F172A</color>
+    <color name="textSecondary">#64748B</color>
+    <color name="dividerColor">#E2E8F0</color>
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+</resources>

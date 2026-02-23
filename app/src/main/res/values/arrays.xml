@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="onboarding_countries">
+        <item>India</item>
+        <item>United States</item>
+        <item>United Kingdom</item>
+        <item>Canada</item>
+        <item>Australia</item>
+    </string-array>
+
+    <string-array name="onboarding_colleges">
+        <item>Indian Institute of Technology, Bombay</item>
+        <item>Delhi University</item>
+        <item>BITS Pilani</item>
+        <item>MIT International</item>
+        <item>Stanford University</item>
+        <item>Oxford University</item>
+    </string-array>
+</resources>

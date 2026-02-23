@@ -1,0 +1,177 @@
+<resources>
+    <string name="app_name">CampusLink</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">CampusLink</string>
+    <string name="nav_header_subtitle">Verified College Network</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="menu_events">Events</string>
+    <string name="menu_travel">Travel</string>
+    <string name="menu_communities">Communities</string>
+    <string name="menu_clubs">Clubs</string>
+    <string name="menu_settings">Settings</string>
+
+    <string name="lorem_ipsum_title">Lorem Ipsum</string>
+    <string name="lorem_ipsum">Lorem Ipsum is simply placeholder text of the printing and
+        typesetting industry. Lorem Ipsum has been the industry\'s standard placeholder text ever
+        since the 1500s, when an unknown printer took a galley of type and scrambled it to make a
+        type specimen book"
+    </string>
+    <string name="fab_content_description">Represents a view to invoke an action</string>
+    <string name="image_view_item_transform_content_description">Represents an image view in the
+        item
+    </string>
+    <string name="onboarding_scan_toast">Opening Camera for ID Scan...</string>
+    <string name="onboarding_error_country">Please select a country</string>
+    <string name="onboarding_error_college">Please select your college</string>
+    <string name="onboarding_error_id">Please enter your ID or scan card</string>
+    <string name="onboarding_step_2">Step 2 of 3: College</string>
+    <string name="onboarding_title_step_2">Find Your Campus</string>
+    <string name="onboarding_subtitle_step_2">Select your educational institution.</string>
+    <string name="onboarding_step_3">Step 3 of 3: Verification</string>
+    <string name="onboarding_title_step_3">Secure Your Profile</string>
+    <string name="onboarding_subtitle_step_3">We verify students to keep the network safe.</string>
+    <string name="onboarding_btn_finish">Finish &amp; Verify</string>
+    <string name="create_event_error_title">Please enter an event title</string>
+    <string name="chat_sender_me">ME</string>
+    <string name="chat_buddy_name">Campus Buddy</string>
+    <string name="chat_buddy_reply">Got it! I\'m on my way. See you there!</string>
+    <string name="chat_just_now">Just now</string>
+
+    <!-- Communities -->
+    <string name="community_members_count">%1$d members</string>
+    <string name="community_category_branch">Branch</string>
+    <string name="community_category_interest">Interest</string>
+    <string name="community_joining_toast">Joining %1$s group chat...</string>
+
+    <!-- Events -->
+    <string name="event_details_format">%1$s | %2$s</string>
+    <string name="event_finding_buddy_toast">Finding buddies for %1$s...</string>
+    <string name="event_opening_details_toast">Opening %1$s details...</string>
+
+    <!-- Clubs -->
+    <string name="club_opening_details_toast">Opening %1$s details...</string>
+    <string name="club_recruitment_info">Club recruitment is currently %1$s!</string>
+
+    <!-- Travel -->
+    <string name="travel_destination_format">To: %1$s</string>
+    <string name="travel_details_format">%1$s | %2$s (%3$d seats left)</string>
+    <string name="travel_request_sent_toast">Request sent to %1$s buddy!</string>
+    <string name="travel_requested_label">Requested</string>
+
+    <!-- Nav Header -->
+    <string name="nav_header_user_name">CampusLink User</string>
+    <string name="nav_header_user_info">IIT Bombay | Class of 2026</string>
+    <string name="nav_header_verified">✓ VERIFIED</string>
+
+    <!-- Profile -->
+    <string name="profile_name_default">Ashwin Kumar</string>
+    <string name="profile_college_default">Indian Institute of Technology, Bombay</string>
+    <string name="profile_verified_badge">VERIFIED STUDENT</string>
+    <string name="profile_stats_title">Statistics</string>
+    <string name="profile_stats_events">Events Joined</string>
+    <string name="profile_stats_buddies">Buddies Met</string>
+    <string name="profile_activity_title">My Activity</string>
+    <string name="profile_btn_my_events">My Joined Events</string>
+    <string name="profile_account_settings_title">Account Settings</string>
+    <string name="profile_btn_edit_profile">Edit Profile</string>
+    <string name="profile_btn_notifications">Notification Preferences</string>
+    <string name="profile_btn_logout">Logout</string>
+
+    <!-- Chat -->
+    <string name="chat_typing_indicator">Campus Buddy is typing</string>
+    <string name="chat_input_hint">Type a message...</string>
+
+    <!-- Communities -->
+    <string name="communities_search_hint">Join a micro-community...</string>
+    <string name="communities_chip_all">All Rooms</string>
+    <string name="communities_chip_branch">My Branch</string>
+    <string name="communities_chip_interests">Interests</string>
+    <string name="communities_chip_placement">Placement Prep</string>
+    <string name="communities_chip_hostel">Hostel Life</string>
+
+    <!-- Events -->
+    <string name="events_tab_explore">Explore</string>
+    <string name="events_tab_mine">My Events</string>
+    <string name="events_search_hint">Search fests, workshops...</string>
+    <string name="events_chip_all">All</string>
+    <string name="events_chip_fests">Fests</string>
+    <string name="events_chip_workshops">Workshops</string>
+    <string name="events_chip_sports">Sports</string>
+    <string name="events_chip_cultural">Cultural</string>
+    <string name="events_empty_msg">No events joined yet.</string>
+    <string name="events_btn_browse">Browse Events</string>
+
+    <!-- Clubs -->
+    <string name="clubs_search_hint">Search clubs &amp; societies...</string>
+    <string name="clubs_chip_all">All Clubs</string>
+    <string name="clubs_chip_tech">Tech</string>
+    <string name="clubs_chip_design">Design</string>
+    <string name="clubs_chip_music">Music</string>
+    <string name="clubs_chip_drama">Drama</string>
+
+    <!-- Travel -->
+    <string name="travel_hero_title">Find Travel Buddies</string>
+    <string name="travel_hero_subtitle">Share cabs, trains or buses to save costs.</string>
+    <string name="travel_btn_post">Post Your Travel Plan</string>
+    <string name="travel_section_title">Active Plans Near You</string>
+
+    <!-- Labels and Generic UI -->
+    <string name="label_live">LIVE</string>
+    <string name="label_find_buddy">Find Buddy</string>
+    <string name="label_buddy_finding_format">%1$d students looking for buddies</string>
+    <string name="label_recruiting">RECRUITING</string>
+    <string name="label_recruiting_volunteers">RECRUITING VOLUNTEERS</string>
+    <string name="label_category">Category</string>
+    <string name="label_next_meeting">Next meeting: Today, 5 PM</string>
+    <string name="label_view_details">View Details</string>
+    <string name="label_qr_attendance">QR Attendance</string>
+    <string name="label_join_room">Join Room</string>
+    <string name="label_request">Request</string>
+    <string name="label_departing_in">Departing in 2h</string>
+    <string name="label_seats_left_format">%1$d seat left</string>
+
+    <!-- Settings -->
+    <string name="settings_title_preferences">Preferences</string>
+    <string name="settings_dark_mode">Dark Mode</string>
+    <string name="settings_notifications">Push Notifications</string>
+    <string name="settings_title_privacy">Privacy &amp; Data</string>
+    <string name="settings_verification_status">Verification Status</string>
+    <string name="settings_data_export">Data Export</string>
+    <string name="settings_app_version">CampusLink v1.0.4 Premium</string>
+
+    <!-- Scanner -->
+    <string name="scanner_hint_default">Align QR Code for Attendance</string>
+    <string name="scanner_processing">Processing QR...</string>
+    <string name="scanner_subtitle">Works for Events &amp; Club Meetings</string>
+    <string name="scanner_btn_simulate">Simulate Attendance Scan</string>
+    <string name="scanner_success_title">Attendance Verified!</string>
+    <string name="scanner_success_message">You have been marked present for \'Robotics Club Monthly Meeting\'.\n\nTime: 05:42 PM\nVenue: Lab 04</string>
+    <string name="scanner_btn_awesome">Awesome</string>
+
+    <!-- Create Event -->
+    <string name="create_event_title_main">Create Event</string>
+    <string name="create_event_subtitle">Post an event to find buddies &amp; attendees.</string>
+    <string name="create_event_cover_photo">Add Event Cover Photo</string>
+    <string name="create_event_hint_title">Event Title</string>
+    <string name="create_event_hint_category">Category</string>
+    <string name="create_event_hint_date">Date</string>
+    <string name="create_event_hint_time">Time</string>
+    <string name="create_event_hint_location">Location / Venue</string>
+    <string name="create_event_hint_description">Description</string>
+    <string name="create_event_select_date">Select Date</string>
+    <string name="create_event_select_time">Select Time</string>
+    <string name="create_event_buddy_matching">Enable \'Find a Buddy\' matching</string>
+    <string name="create_event_btn_publish">Publish Event</string>
+    <string name="create_event_success_title">Event Published!</string>
+    <string name="create_event_success_subtitle">Your campus buddies can now see it.</string>
+    <string name="create_event_btn_cancel">Cancel</string>
+
+    <!-- Menu Titles -->
+    <string name="menu_profile">Profile</string>
+    <string name="menu_direct_messages">Direct Messages</string>
+    <string name="menu_qr_checkin">QR Check-in</string>
+    <string name="menu_my_profile">My Profile</string>
+</resources>
