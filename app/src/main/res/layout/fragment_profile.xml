@@ -156,6 +156,114 @@
             </LinearLayout>
         </LinearLayout>
 
+        <!-- Personal Information Card -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/round_surface"
+            android:elevation="2dp"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/profile_personal_info"
+                android:textColor="@color/textPrimary"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <!-- Email -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/profile_label_email"
+                    android:textColor="@color/textSecondary"
+                    android:textSize="12sp" />
+                <TextView
+                    android:id="@+id/profile_detail_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="user@example.com"
+                    android:textColor="@color/textPrimary"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <!-- Phone -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/profile_label_phone"
+                    android:textColor="@color/textSecondary"
+                    android:textSize="12sp" />
+                <TextView
+                    android:id="@+id/profile_detail_phone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="+91 9876543210"
+                    android:textColor="@color/textPrimary"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <!-- Address -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/profile_label_address"
+                    android:textColor="@color/textSecondary"
+                    android:textSize="12sp" />
+                <TextView
+                    android:id="@+id/profile_detail_address"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="Hostel 12, Room 302"
+                    android:textColor="@color/textPrimary"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <!-- Interests -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/profile_label_interests"
+                    android:textColor="@color/textSecondary"
+                    android:textSize="12sp" />
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/profile_interests_chips"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp">
+                    <!-- Dynamic Chips -->
+                </com.google.android.material.chip.ChipGroup>
+            </LinearLayout>
+
+        </LinearLayout>
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -192,6 +300,7 @@
             android:textStyle="bold" />
 
         <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_edit_profile"
             style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -206,6 +315,36 @@
             app:iconTint="@color/textSecondary" />
 
         <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_join_college"
+            style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="8dp"
+            android:gravity="start|center_vertical"
+            android:padding="16dp"
+            android:text="Join Your College"
+            android:textAllCaps="false"
+            android:textColor="@color/primaryColor"
+            app:icon="@drawable/ic_clubs"
+            app:iconTint="@color/primaryColor" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_verify_account"
+            style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:gravity="start|center_vertical"
+            android:padding="16dp"
+            android:text="Verify Student Account"
+            android:textAllCaps="false"
+            android:textColor="@color/primaryColor"
+            app:icon="@drawable/ic_badge_verified"
+            app:iconTint="@color/primaryColor" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_notifications"
             style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -219,6 +358,7 @@
             app:iconTint="@color/textSecondary" />
 
         <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_logout"
             style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

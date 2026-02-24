@@ -24,6 +24,19 @@ interface ApiService {
     @GET("api/v1/users/me")
     suspend fun getCurrentUser(): Response<UserResponse>
 
+    @PUT("api/v1/users/me")
+    suspend fun updateCurrentUser(@Body request: UserUpdateRequest): Response<UserResponse>
+
+    @Multipart
+    @POST("api/v1/users/me/profile-image")
+    suspend fun uploadProfileImage(@Part file: okhttp3.MultipartBody.Part): Response<UserResponse>
+
+    @POST("api/v1/users/join-college")
+    suspend fun joinCollege(@Query("invite_code") code: String): Response<Any>
+
+    @DELETE("api/v1/users/{id}")
+    suspend fun deleteUser(@Path("id") id: Int): Response<Any>
+
     // ─── Events ──────────────────────────────────────────────────────────────
 
     @GET("api/v1/events/")
@@ -37,6 +50,12 @@ interface ApiService {
 
     @POST("api/v1/events/")
     suspend fun createEvent(@Body event: EventCreateRequest): Response<EventResponse>
+
+    @PUT("api/v1/events/{id}")
+    suspend fun updateEvent(@Path("id") id: Int, @Body event: EventCreateRequest): Response<EventResponse>
+
+    @DELETE("api/v1/events/{id}")
+    suspend fun deleteEvent(@Path("id") id: Int): Response<EventResponse>
 
     @POST("api/v1/events/{id}/register")
     suspend fun registerForEvent(@Path("id") id: Int): Response<Any>
@@ -76,4 +95,27 @@ interface ApiService {
         @Query("skip") skip: Int = 0,
         @Query("limit") limit: Int = 50
     ): Response<List<MessageResponse>>
+
+    // ─── Notifications ───────────────────────────────────────────────────────────
+
+    @GET("api/v1/notifications/")
+    suspend fun getNotifications(
+        @Query("skip") skip: Int = 0,
+        @Query("limit") limit: Int = 100
+    ): Response<List<NotificationResponse>>
+
+    @POST("api/v1/notifications/read-all")
+    suspend fun markAllNotificationsRead(): Response<Any>
+
+    @GET("api/v1/marketplace/")
+    suspend fun getMarketplaceItems(
+        @Query("skip") skip: Int = 0,
+        @Query("limit") limit: Int = 100
+    ): Response<List<MarketplaceItemResponse>>
+
+    @Multipart
+    @POST("api/v1/verifications/request")
+    suspend fun submitVerificationRequest(
+        @Part file: okhttp3.MultipartBody.Part
+    ): Response<Any>
 }

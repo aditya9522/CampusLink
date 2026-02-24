@@ -4,7 +4,6 @@ import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import android.view.Menu
 import android.view.MenuItem
-import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.navigation.NavigationView
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
@@ -13,7 +12,13 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.example.eventapp.databinding.ActivityMainBinding
+import com.example.eventapp.ui.profile.ProfileViewModel
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
 
@@ -46,6 +51,57 @@ class MainActivity : AppCompatActivity() {
 
         binding.navView?.setupWithNavController(navController)
         binding.appBarMain.contentMain.bottomNavView?.setupWithNavController(navController)
+
+        // Setup dynamic sidebar header
+        setupNavHeader()
+    }
+
+    private fun setupNavHeader() {
+        val navView: NavigationView = binding.navView ?: return
+        val headerView = navView.getHeaderView(0) ?: return
+        
+        val repository = (application as EventApplication).repository
+        val factory = AppViewModelFactory(repository)
+        val profileViewModel = ViewModelProvider(this, factory).get(ProfileViewModel::class.java)
+
+        val nameView = headerView.findViewById<android.widget.TextView>(R.id.nav_header_name)
+        val emailView = headerView.findViewById<android.widget.TextView>(R.id.nav_header_email)
+        val collegeView = headerView.findViewById<android.widget.TextView>(R.id.nav_header_college)
+
+        profileViewModel.user.observe(this) { user ->
+            user?.let {
+                nameView.text = it.fullName ?: "Student"
+                emailView.text = it.email
+                collegeView.text = it.collegeName ?: "Class of 2026"
+                
+                // You can use Glide/Picasso to load the image if URL is present
+                // if (!it.profileImageUrl.isNullOrEmpty()) { ... }
+            }
+        }
+
+        // Listen for real-time notifications
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                repository.wsMessages.collect { json ->
+                    val type = json.optString("type")
+                    if (type == "notification") {
+                        val title = json.optString("title")
+                        val message = json.optString("message")
+                        
+                        runOnUiThread {
+                            val snackBar = com.google.android.material.snackbar.Snackbar.make(
+                                binding.root,
+                                "$title: $message",
+                                com.google.android.material.snackbar.Snackbar.LENGTH_LONG
+                            )
+                            snackBar.setBackgroundTint(getColor(R.color.primaryColor))
+                            snackBar.setTextColor(getColor(R.color.white))
+                            snackBar.show()
+                        }
+                    }
+                }
+            }
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

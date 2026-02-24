@@ -2,6 +2,7 @@ package com.example.eventapp.ui.profile
 
 import androidx.lifecycle.*
 import com.example.eventapp.network.models.UserResponse
+import com.example.eventapp.network.models.UserUpdateRequest
 import com.example.eventapp.repository.AppRepository
 import kotlinx.coroutines.launch
 
@@ -34,10 +35,38 @@ class ProfileViewModel(private val repository: AppRepository) : ViewModel() {
         }
     }
 
+    fun updateProfile(req: UserUpdateRequest) {
+        viewModelScope.launch {
+            _loading.value = true
+            _error.value = null
+            try {
+                _user.value = repository.updateCurrentUser(req)
+            } catch (e: Exception) {
+                _error.value = e.message
+            } finally {
+                _loading.value = false
+            }
+        }
+    }
+
     fun logout(onDone: () -> Unit) {
         viewModelScope.launch {
             repository.logout()
             onDone()
+        }
+    }
+
+    fun deleteAccount(onDone: () -> Unit, onError: (String) -> Unit) {
+        viewModelScope.launch {
+            _loading.value = true
+            try {
+                repository.deleteAccount()
+                onDone()
+            } catch (e: Exception) {
+                onError(e.message ?: "Failed to delete account")
+            } finally {
+                _loading.value = false
+            }
         }
     }
 }

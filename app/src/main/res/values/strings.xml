@@ -135,12 +135,23 @@
 
     <!-- Settings -->
     <string name="settings_title_preferences">Preferences</string>
-    <string name="settings_dark_mode">Dark Mode</string>
+    <string name="settings_theme">App Theme</string>
+    <string name="settings_theme_system">System Default</string>
+    <string name="settings_theme_light">Light Mode</string>
+    <string name="settings_theme_dark">Dark Mode</string>
     <string name="settings_notifications">Push Notifications</string>
     <string name="settings_title_privacy">Privacy &amp; Data</string>
     <string name="settings_verification_status">Verification Status</string>
     <string name="settings_data_export">Data Export</string>
     <string name="settings_app_version">CampusLink v1.0.4 Premium</string>
+
+    <!-- Profile Detail Labels -->
+    <string name="profile_personal_info">Personal Information</string>
+    <string name="profile_label_email">Email Address</string>
+    <string name="profile_label_phone">Phone Number</string>
+    <string name="profile_label_address">Address / Hostel</string>
+    <string name="profile_label_interests">Interests</string>
+    <string name="profile_btn_save">Save Profile</string>
 
     <!-- Scanner -->
     <string name="scanner_hint_default">Align QR Code for Attendance</string>

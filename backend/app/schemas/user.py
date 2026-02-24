@@ -7,6 +7,14 @@ class UserBase(BaseModel):
     is_active: Optional[bool] = True
     is_superuser: bool = False
     full_name: Optional[str] = None
+    phone_number: Optional[str] = None
+    address: Optional[str] = None
+    interests: Optional[str] = None
+    college_name: Optional[str] = None
+    profile_image_url: Optional[str] = None
+    theme_preference: Optional[str] = "system"
+    college_id: Optional[int] = None
+    role: Optional[str] = "student"
 
 # Properties to receive via API on creation
 class UserCreate(UserBase):

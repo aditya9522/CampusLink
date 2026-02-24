@@ -5,6 +5,7 @@ from pydantic import AnyHttpUrl, validator
 class Settings(BaseSettings):
     PROJECT_NAME: str = "College Event API"
     API_V1_STR: str = "/api/v1"
+    BACKEND_URL: Optional[str] = None
     
     SECRET_KEY: str = "your-secret-key-here"  # Change in production
     ALGORITHM: str = "HS256"

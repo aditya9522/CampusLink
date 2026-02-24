@@ -5,6 +5,8 @@ import com.example.eventapp.network.TokenManager
 import com.example.eventapp.network.WSClient
 import com.example.eventapp.network.models.*
 import kotlinx.coroutines.flow.first
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.RequestBody.Companion.asRequestBody
 
 /**
  * Single repository used by all ViewModels.
@@ -46,6 +48,20 @@ class AppRepository(
         throw Exception(response.errorBody()?.string() ?: "Failed to fetch user")
     }
 
+    suspend fun updateCurrentUser(req: UserUpdateRequest): UserResponse {
+        val response = api.updateCurrentUser(req)
+        if (response.isSuccessful) return response.body()!!
+        throw Exception(response.errorBody()?.string() ?: "Failed to update profile")
+    }
+
+    suspend fun uploadProfileImage(file: java.io.File): UserResponse {
+        val requestFile = file.asRequestBody("image/*".toMediaTypeOrNull())
+        val body = okhttp3.MultipartBody.Part.createFormData("file", file.name, requestFile)
+        val response = api.uploadProfileImage(body)
+        if (response.isSuccessful) return response.body()!!
+        throw Exception(response.errorBody()?.string() ?: "Failed to upload image")
+    }
+
     // ─── Events ──────────────────────────────────────────────────────────────
 
     suspend fun getEvents(): List<EventResponse> {
@@ -60,10 +76,36 @@ class AppRepository(
         throw Exception(response.errorBody()?.string() ?: "Failed to create event")
     }
 
+    suspend fun updateEvent(id: Int, req: EventCreateRequest): EventResponse {
+        val response = api.updateEvent(id, req)
+        if (response.isSuccessful) return response.body()!!
+        throw Exception(response.errorBody()?.string() ?: "Failed to update event")
+    }
+
+    suspend fun deleteEvent(id: Int): EventResponse {
+        val response = api.deleteEvent(id)
+        if (response.isSuccessful) return response.body()!!
+        throw Exception(response.errorBody()?.string() ?: "Failed to delete event")
+    }
+
     suspend fun registerForEvent(eventId: Int) {
         val response = api.registerForEvent(eventId)
         if (!response.isSuccessful)
             throw Exception(response.errorBody()?.string() ?: "Failed to register")
+    }
+
+    // ... (Clubs, Communities, Travel remain the same)
+
+    // ─── Notifications ───────────────────────────────────────────────────────────
+
+    suspend fun getNotifications(): List<NotificationResponse> {
+        val response = api.getNotifications()
+        if (response.isSuccessful) return response.body() ?: emptyList()
+        throw Exception(response.errorBody()?.string() ?: "Failed to fetch notifications")
+    }
+
+    suspend fun markAllNotificationsRead() {
+        api.markAllNotificationsRead()
     }
 
     // ─── Clubs ───────────────────────────────────────────────────────────────
@@ -111,8 +153,7 @@ class AppRepository(
     suspend fun connectToChat() {
         val token = tokenManager.tokenFlow.first()
         if (token != null) {
-            // Android emulator uses 10.0.2.2 for localhost
-            val wsUrl = "ws://10.0.2.2:8000/api/v1/ws/$token"
+            val wsUrl = "${com.example.eventapp.network.AppConfig.WS_URL}/$token"
             wsClient.connect(wsUrl)
         }
     }
@@ -121,4 +162,34 @@ class AppRepository(
 
     fun sendMessage(content: String, channel: String = "general") = 
         wsClient.sendMessage(content, channel)
+
+    // ─── Marketplace ─────────────────────────────────────────────────────────
+
+    suspend fun getMarketplaceItems(): List<MarketplaceItemResponse> {
+        val response = api.getMarketplaceItems()
+        if (response.isSuccessful) return response.body() ?: emptyList()
+        throw Exception(response.errorBody()?.string() ?: "Failed to fetch marketplace items")
+    }
+
+    suspend fun uploadVerificationID(file: java.io.File): Any {
+        val requestFile = file.asRequestBody("image/*".toMediaTypeOrNull())
+        val body = okhttp3.MultipartBody.Part.createFormData("file", file.name, requestFile)
+        val response = api.submitVerificationRequest(body)
+        if (response.isSuccessful) return response.body()!!
+        throw Exception(response.errorBody()?.string() ?: "Failed to upload verification ID")
+    }
+
+    suspend fun joinCollege(code: String): Any {
+        val response = api.joinCollege(code)
+        if (response.isSuccessful) return response.body()!!
+        throw Exception(response.errorBody()?.string() ?: "Failed to join college")
+    }
+
+    suspend fun deleteAccount() {
+        val user = getCurrentUser()
+        val response = api.deleteUser(user.id)
+        if (!response.isSuccessful)
+            throw Exception(response.errorBody()?.string() ?: "Failed to delete account")
+        tokenManager.clearToken()
+    }
 }

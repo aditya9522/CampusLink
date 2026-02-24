@@ -53,3 +53,12 @@ def get_current_active_superuser(
             status_code=400, detail="The user doesn't have enough privileges"
         )
     return current_user
+
+def get_current_active_college_admin(
+    current_user: User = Depends(get_current_user),
+) -> User:
+    if not current_user.is_superuser and current_user.role != "college_admin":
+        raise HTTPException(
+            status_code=400, detail="The user doesn't have enough privileges"
+        )
+    return current_user

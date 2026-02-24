@@ -25,9 +25,27 @@ data class RegisterRequest(
 data class UserResponse(
     val id: Int,
     val email: String,
-    @SerializedName("full_name")    val fullName: String?,
-    @SerializedName("is_active")    val isActive: Boolean,
-    @SerializedName("is_superuser") val isSuperuser: Boolean
+    @SerializedName("full_name")         val fullName: String?,
+    @SerializedName("phone_number")      val phoneNumber: String?,
+    @SerializedName("address")           val address: String?,
+    @SerializedName("interests")         val interests: String?,
+    @SerializedName("college_name")      val collegeName: String?,
+    @SerializedName("profile_image_url") val profileImageUrl: String?,
+    @SerializedName("theme_preference")  val themePreference: String?,
+    @SerializedName("is_active")         val isActive: Boolean,
+    @SerializedName("is_superuser")      val isSuperuser: Boolean,
+    @SerializedName("college_id")        val collegeId: Int?,
+    @SerializedName("role")              val role: String?
+)
+
+data class UserUpdateRequest(
+    @SerializedName("full_name")         val fullName: String? = null,
+    @SerializedName("phone_number")      val phoneNumber: String? = null,
+    @SerializedName("address")           val address: String? = null,
+    @SerializedName("interests")         val interests: String? = null,
+    @SerializedName("college_name")      val collegeName: String? = null,
+    @SerializedName("theme_preference")  val themePreference: String? = null,
+    val password: String? = null
 )
 
 // ─── Event ───────────────────────────────────────────────────────────────────
@@ -100,4 +118,28 @@ data class MessageResponse(
     val content: String,
     val timestamp: String,
     val channel: String
+)
+
+// ─── Notifications ───────────────────────────────────────────────────────────
+
+data class NotificationResponse(
+    val id: Int,
+    val title: String,
+    val message: String,
+    val type: String, // info, success, warning, error
+    @SerializedName("is_read") val isRead: Boolean,
+    @SerializedName("created_at") val createdAt: String
+)
+
+data class MarketplaceItemResponse(
+    val id: Int,
+    @SerializedName("owner_id") val ownerId: Int,
+    val title: String,
+    val description: String,
+    val price: Double,
+    val category: String,
+    @SerializedName("image_url") val imageUrl: String?,
+    @SerializedName("is_available") val isAvailable: Boolean,
+    @SerializedName("created_at") val createdAt: String,
+    @SerializedName("owner_name") val ownerName: String?
 )
