@@ -71,11 +71,21 @@ async def read_users(
 
 @router.get("/me", response_model=User)
 async def read_user_me(
+    db: AsyncSession = Depends(get_db),
     current_user: UserModel = Depends(deps.get_current_active_user),
 ) -> Any:
     """
-    Get current user.
+    Get current user with stats.
     """
+    from app.models.models import Participation
+    # Count events joined
+    evt_stmt = select(func.count(Participation.id)).where(Participation.user_id == current_user.id)
+    evt_count = await db.execute(evt_stmt)
+    current_user.events_count = evt_count.scalar() or 0
+    
+    # buddies_count - for now placeholder or query logic if available
+    current_user.buddies_count = 5 # Placeholder for buddy logic
+    
     return current_user
 
 @router.put("/me", response_model=User)

@@ -7,6 +7,11 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
 
+    <string name="nav_header_user_name">User Name</string>
+    <string name="nav_header_user_email">user@email.com</string>
+    <string name="nav_header_verified">Verified</string>
+    <string name="nav_header_user_info">College Name</string>
+
     <string name="menu_events">Events</string>
     <string name="menu_travel">Travel</string>
     <string name="menu_communities">Communities</string>
@@ -17,8 +22,7 @@
     <string name="lorem_ipsum">Lorem Ipsum is simply placeholder text of the printing and
         typesetting industry. Lorem Ipsum has been the industry\'s standard placeholder text ever
         since the 1500s, when an unknown printer took a galley of type and scrambled it to make a
-        type specimen book"
-    </string>
+        type specimen book"</string>
     <string name="fab_content_description">Represents a view to invoke an action</string>
     <string name="image_view_item_transform_content_description">Represents an image view in the
         item
@@ -61,13 +65,8 @@
     <string name="travel_request_sent_toast">Request sent to %1$s buddy!</string>
     <string name="travel_requested_label">Requested</string>
 
-    <!-- Nav Header -->
-    <string name="nav_header_user_name">CampusLink User</string>
-    <string name="nav_header_user_info">IIT Bombay | Class of 2026</string>
-    <string name="nav_header_verified">✓ VERIFIED</string>
-
     <!-- Profile -->
-    <string name="profile_name_default">Ashwin Kumar</string>
+    <string name="profile_name_default">Aditya Patel</string>
     <string name="profile_college_default">Indian Institute of Technology, Bombay</string>
     <string name="profile_verified_badge">VERIFIED STUDENT</string>
     <string name="profile_stats_title">Statistics</string>
@@ -168,8 +167,8 @@
     <string name="create_event_cover_photo">Add Event Cover Photo</string>
     <string name="create_event_hint_title">Event Title</string>
     <string name="create_event_hint_category">Category</string>
-    <string name="create_event_hint_date">Date</string>
-    <string name="create_event_hint_time">Time</string>
+    <string name="create_event_hint_date">Event Date</string>
+    <string name="create_event_hint_time">Start Time</string>
     <string name="create_event_hint_location">Location / Venue</string>
     <string name="create_event_hint_description">Description</string>
     <string name="create_event_select_date">Select Date</string>
@@ -185,4 +184,11 @@
     <string name="menu_direct_messages">Direct Messages</string>
     <string name="menu_qr_checkin">QR Check-in</string>
     <string name="menu_my_profile">My Profile</string>
+
+    <!-- Profile Fragment -->
+    <string name="profile_image_update_success">Profile image updated!</string>
+    <string name="profile_image_update_failed">Upload failed: %s</string>
+    <string name="profile_not_provided">Not provided</string>
+    <string name="verification_id_submit_success">Verification ID submitted to Admin!</string>
+    <string name="verification_id_submit_failed">Submission failed: %s</string>
 </resources>

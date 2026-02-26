@@ -13,21 +13,27 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/gradient_primary"
-            android:padding="32dp">
+            android:layout_height="300dp"
+            android:background="@drawable/gradient_primary">
+            
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/side_nav_bar"
+                android:alpha="0.1"/>
 
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/profile_image"
-                android:layout_width="96dp"
-                android:layout_height="96dp"
-                android:padding="2dp"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_marginTop="60dp"
+                android:padding="3dp"
                 android:src="@drawable/avatar_1"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize50Percent"
-                app:strokeColor="#FFFFFF"
+                app:strokeColor="@color/white"
                 app:strokeWidth="4dp" />
 
             <TextView
@@ -36,9 +42,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:text="@string/profile_name_default"
-                android:textColor="#FFFFFF"
-                android:textSize="22sp"
+                android:textColor="@color/white"
+                android:textSize="28sp"
                 android:textStyle="bold"
+                android:letterSpacing="-0.02"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/profile_image" />
@@ -49,328 +56,375 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:text="@string/profile_college_default"
-                android:textColor="#E0E7FF"
-                android:textSize="14sp"
+                android:textColor="#CCFFFFFF"
+                android:textSize="15sp"
+                android:alpha="0.9"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/profile_name" />
 
-            <View
-                android:id="@+id/verification_badge"
-                android:layout_width="100dp"
-                android:layout_height="24dp"
-                android:layout_marginTop="12dp"
-                android:background="@drawable/badge_live"
-                android:backgroundTint="@color/successColor"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/profile_college" />
-
-            <TextView
+            <LinearLayout
+                android:id="@+id/tv_verified_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/profile_verified_badge"
-                android:textColor="#FFFFFF"
-                android:textSize="10sp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="@id/verification_badge"
-                app:layout_constraintEnd_toEndOf="@id/verification_badge"
-                app:layout_constraintStart_toStartOf="@id/verification_badge"
-                app:layout_constraintTop_toTopOf="@id/verification_badge" />
+                android:layout_marginTop="16dp"
+                android:background="@drawable/badge_category"
+                android:backgroundTint="#33FFFFFF"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingHorizontal="14dp"
+                android:paddingVertical="6dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/profile_college">
+
+                <ImageView
+                    android:layout_width="14dp"
+                    android:layout_height="14dp"
+                    android:layout_marginEnd="6dp"
+                    android:src="@drawable/ic_check_box_on_background"
+                    app:tint="@color/white" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/profile_verified_badge"
+                    android:textColor="@color/white"
+                    android:textSize="11sp"
+                    android:textStyle="bold"
+                    android:letterSpacing="0.05"
+                    android:textAllCaps="true" />
+            </LinearLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <LinearLayout
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:background="@drawable/round_surface"
-            android:elevation="2dp"
-            android:orientation="vertical"
-            android:padding="16dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/profile_stats_title"
-                android:textColor="@color/textPrimary"
-                android:textSize="16sp"
-                android:textStyle="bold" />
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="-40dp"
+            android:layout_marginBottom="24dp"
+            app:cardCornerRadius="24dp"
+            app:cardElevation="6dp"
+            app:strokeWidth="0dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:orientation="horizontal">
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/profile_stats_title"
+                    android:textColor="@color/textPrimary"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android.textAllCaps="true"
+                    android:letterSpacing="0.05"/>
 
                 <LinearLayout
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:orientation="vertical">
+                    android:layout_marginTop="20dp"
+                    android:orientation="horizontal">
 
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:text="12"
-                        android:textColor="@color/primaryColor"
-                        android:textSize="20sp"
-                        android:textStyle="bold" />
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
 
-                    <TextView
-                        android:layout_width="wrap_content"
+                        <TextView
+                            android:id="@+id/profile_id_events_count"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="12"
+                            android:textColor="@color/primaryColor"
+                            android:textSize="22sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/profile_stats_events"
+                            android:textColor="@color/textSecondary"
+                            android:textSize="13sp"
+                            android:layout_marginTop="2dp"/>
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="32dp"
+                        android:layout_gravity="center"
+                        android:background="@color/dividerColor" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:text="@string/profile_stats_events"
-                        android:textColor="@color/textSecondary"
-                        android:textSize="12sp" />
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/profile_id_buddies_count"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="45"
+                            android:textColor="@color/primaryColor"
+                            android:textSize="22sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/profile_stats_buddies"
+                            android:textColor="@color/textSecondary"
+                            android:textSize="13sp"
+                            android:layout_marginTop="2dp"/>
+                    </LinearLayout>
                 </LinearLayout>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginBottom="24dp"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="2dp"
+            app:strokeWidth="0dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/profile_personal_info"
+                    android:textColor="@color/textPrimary"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android.textAllCaps="true"
+                    android:letterSpacing="0.05"/>
+
+                <!-- Email -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/profile_label_email"
+                        android:textColor="@color/textSecondary"
+                        android:textSize="12sp"
+                        android.textAllCaps="true"
+                        android:letterSpacing="0.02"/>
+                    <TextView
+                        android:id="@+id/profile_detail_email"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="aditya@campuslink.edu"
+                        android:textColor="@color/textPrimary"
+                        android:textSize="15sp"
+                        android:textStyle="normal"/>
+                </LinearLayout>
+
+                <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/dividerColor" android:layout_marginVertical="12dp"/>
+
+                <!-- Phone -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/profile_label_phone"
+                        android:textColor="@color/textSecondary"
+                        android:textSize="12sp"
+                        android.textAllCaps="true"
+                        android:letterSpacing="0.02"/>
+                    <TextView
+                        android:id="@+id/profile_detail_phone"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="+91 98765 43210"
+                        android:textColor="@color/textPrimary"
+                        android:textSize="15sp"
+                        android:textStyle="normal"/>
+                </LinearLayout>
+
+                <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/dividerColor" android:layout_marginVertical="12dp"/>
+
+                <!-- Address -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/profile_label_address"
+                        android:textColor="@color/textSecondary"
+                        android:textSize="12sp"
+                        android.textAllCaps="true"
+                        android:letterSpacing="0.02"/>
+                    <TextView
+                        android:id="@+id/profile_detail_address"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="Room 402, Block C, University Campus"
+                        android:textColor="@color/textPrimary"
+                        android:textSize="15sp"
+                        android:textStyle="normal"/>
+                </LinearLayout>
+
+                <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/dividerColor" android:layout_marginVertical="12dp"/>
+
+                <!-- Interests -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/profile_label_interests"
+                        android:textColor="@color/textSecondary"
+                        android:textSize="12sp"
+                        android.textAllCaps="true"
+                        android:letterSpacing="0.02"/>
+                    <com.google.android.material.chip.ChipGroup
+                        android:id="@+id/profile_interests_chips"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        app:chipSpacing="8dp">
+                        <!-- Dynamic Chips -->
+                    </com.google.android.material.chip.ChipGroup>
+                </LinearLayout>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginBottom="12dp"
+            android:text="@string/profile_activity_title"
+            android:textColor="@color/primaryColor"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            android.textAllCaps="true"
+            android:letterSpacing="0.05"/>
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="2dp"
+            app:strokeWidth="0dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_my_events"
+                    style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="start|center_vertical"
+                    android:paddingHorizontal="18dp"
+                    android:paddingVertical="14dp"
+                    android:text="@string/profile_btn_my_events"
+                    android:textColor="@color/textPrimary"
+                    android:textSize="16sp"
+                    app:icon="@drawable/ic_events"
+                    app:iconTint="@color/primaryColor"
+                    app:iconSize="22dp"
+                    app:iconPadding="16dp" />
 
                 <View
-                    android:layout_width="1dp"
-                    android:layout_height="32dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginHorizontal="18dp"
+                    android:background="@color/dividerColor" />
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_notifications"
+                    style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="start|center_vertical"
+                    android:paddingHorizontal="18dp"
+                    android:paddingVertical="14dp"
+                    android:text="@string/profile_btn_notifications"
+                    android:textColor="@color/textPrimary"
+                    android:textSize="16sp"
+                    app:icon="@drawable/ic_gallery_black_24dp"
+                    app:iconTint="@color/primaryColor"
+                    app:iconSize="22dp"
+                    app:iconPadding="16dp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginHorizontal="18dp"
                     android:background="@color/dividerColor" />
 
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="5"
-                        android:textColor="@color/primaryColor"
-                        android:textSize="20sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/profile_stats_buddies"
-                        android:textColor="@color/textSecondary"
-                        android:textSize="12sp" />
-                </LinearLayout>
-            </LinearLayout>
-        </LinearLayout>
-
-        <!-- Personal Information Card -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
-            android:layout_marginBottom="16dp"
-            android:background="@drawable/round_surface"
-            android:elevation="2dp"
-            android:orientation="vertical"
-            android:padding="16dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/profile_personal_info"
-                android:textColor="@color/textPrimary"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-
-            <!-- Email -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:orientation="vertical">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/profile_label_email"
-                    android:textColor="@color/textSecondary"
-                    android:textSize="12sp" />
-                <TextView
-                    android:id="@+id/profile_detail_email"
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_edit_profile"
+                    style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:text="user@example.com"
+                    android:gravity="start|center_vertical"
+                    android:paddingHorizontal="18dp"
+                    android:paddingVertical="14dp"
+                    android:text="@string/profile_btn_edit_profile"
                     android:textColor="@color/textPrimary"
-                    android:textSize="14sp" />
-            </LinearLayout>
+                    android:textSize="16sp"
+                    app:icon="@drawable/ic_settings_black_24dp"
+                    app:iconTint="@color/primaryColor"
+                    app:iconSize="22dp"
+                    app:iconPadding="16dp" />
 
-            <!-- Phone -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:orientation="vertical">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/profile_label_phone"
-                    android:textColor="@color/textSecondary"
-                    android:textSize="12sp" />
-                <TextView
-                    android:id="@+id/profile_detail_phone"
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginHorizontal="18dp"
+                    android:background="@color/dividerColor" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_logout"
+                    style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:text="+91 9876543210"
-                    android:textColor="@color/textPrimary"
-                    android:textSize="14sp" />
+                    android:gravity="start|center_vertical"
+                    android:paddingHorizontal="18dp"
+                    android:paddingVertical="14dp"
+                    android:text="@string/profile_btn_logout"
+                    android:textColor="@color/errorColor"
+                    android:textSize="16sp"
+                    app:icon="@drawable/ic_logout"
+                    app:iconTint="@color/errorColor"
+                    app:iconSize="22dp"
+                    app:iconPadding="16dp" />
+
             </LinearLayout>
-
-            <!-- Address -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:orientation="vertical">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/profile_label_address"
-                    android:textColor="@color/textSecondary"
-                    android:textSize="12sp" />
-                <TextView
-                    android:id="@+id/profile_detail_address"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:text="Hostel 12, Room 302"
-                    android:textColor="@color/textPrimary"
-                    android:textSize="14sp" />
-            </LinearLayout>
-
-            <!-- Interests -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:orientation="vertical">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/profile_label_interests"
-                    android:textColor="@color/textSecondary"
-                    android:textSize="12sp" />
-                <com.google.android.material.chip.ChipGroup
-                    android:id="@+id/profile_interests_chips"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp">
-                    <!-- Dynamic Chips -->
-                </com.google.android.material.chip.ChipGroup>
-            </LinearLayout>
-
-        </LinearLayout>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="8dp"
-            android:text="@string/profile_activity_title"
-            android:textColor="@color/textSecondary"
-            android:textSize="12sp"
-            android:textStyle="bold" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_my_events"
-            style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
-            android:layout_marginTop="8dp"
-            android:gravity="start|center_vertical"
-            android:padding="16dp"
-            android:text="@string/profile_btn_my_events"
-            android:textAllCaps="false"
-            android:textColor="@color/textPrimary"
-            app:icon="@drawable/ic_events"
-            app:iconTint="@color/textSecondary" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="16dp"
-            android:text="@string/profile_account_settings_title"
-            android:textColor="@color/textSecondary"
-            android:textSize="12sp"
-            android:textStyle="bold" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_edit_profile"
-            style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
-            android:layout_marginTop="8dp"
-            android:gravity="start|center_vertical"
-            android:padding="16dp"
-            android:text="@string/profile_btn_edit_profile"
-            android:textAllCaps="false"
-            android:textColor="@color/textPrimary"
-            app:icon="@drawable/ic_settings_black_24dp"
-            app:iconTint="@color/textSecondary" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_join_college"
-            style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
-            android:layout_marginTop="8dp"
-            android:gravity="start|center_vertical"
-            android:padding="16dp"
-            android:text="Join Your College"
-            android:textAllCaps="false"
-            android:textColor="@color/primaryColor"
-            app:icon="@drawable/ic_clubs"
-            app:iconTint="@color/primaryColor" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_verify_account"
-            style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
-            android:gravity="start|center_vertical"
-            android:padding="16dp"
-            android:text="Verify Student Account"
-            android:textAllCaps="false"
-            android:textColor="@color/primaryColor"
-            app:icon="@drawable/ic_badge_verified"
-            app:iconTint="@color/primaryColor" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_notifications"
-            style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
-            android:gravity="start|center_vertical"
-            android:padding="16dp"
-            android:text="@string/profile_btn_notifications"
-            android:textAllCaps="false"
-            android:textColor="@color/textPrimary"
-            app:icon="@android:drawable/ic_popup_reminder"
-            app:iconTint="@color/textSecondary" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_logout"
-            style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
-            android:layout_marginTop="24dp"
-            android:gravity="start|center_vertical"
-            android:padding="16dp"
-            android:text="@string/profile_btn_logout"
-            android:textAllCaps="false"
-            android:textColor="@color/liveIndicator"
-            app:icon="@android:drawable/ic_lock_power_off"
-            app:iconTint="@color/liveIndicator" />
-
+        </com.google.android.material.card.MaterialCardView>
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>

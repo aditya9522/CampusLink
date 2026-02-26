@@ -3,95 +3,157 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="24dp">
+    android:background="@drawable/rounded_dialog_background"
+    android:clipToOutline="true">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="28dp">
+
+        <!-- Title row with drag handle -->
+        <View
+            android:layout_width="40dp"
+            android:layout_height="4dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="20dp"
+            android:background="@color/dividerColor"
+            android:backgroundTint="@color/dividerColor" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Edit Profile"
-            android:textColor="@color/primaryColor"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+            android:text="Edit Your Profile"
+            android:textColor="@color/textPrimary"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:letterSpacing="-0.02" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="Update your information below"
+            android:textColor="@color/textSecondary"
+            android:textSize="14sp" />
 
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:hint="Full Name">
+            android:layout_marginTop="28dp"
+            android:hint="Full Name"
+            app:boxCornerRadiusBottomEnd="12dp"
+            app:boxCornerRadiusBottomStart="12dp"
+            app:boxCornerRadiusTopEnd="12dp"
+            app:boxCornerRadiusTopStart="12dp"
+            app:boxStrokeColor="@color/primaryColor"
+            app:hintTextColor="@color/primaryColor">
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/et_edit_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textPersonName" />
+                android:inputType="textPersonName"
+                android:textColor="@color/textPrimary"
+                android:textSize="15sp" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:hint="College Name">
+            android:layout_marginTop="16dp"
+            android:hint="College Name"
+            app:boxCornerRadiusBottomEnd="12dp"
+            app:boxCornerRadiusBottomStart="12dp"
+            app:boxCornerRadiusTopEnd="12dp"
+            app:boxCornerRadiusTopStart="12dp"
+            app:boxStrokeColor="@color/primaryColor"
+            app:hintTextColor="@color/primaryColor">
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/et_edit_college"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="text" />
+                android:inputType="text"
+                android:textColor="@color/textPrimary"
+                android:textSize="15sp" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:hint="Phone Number">
+            android:layout_marginTop="16dp"
+            android:hint="Phone Number"
+            app:boxCornerRadiusBottomEnd="12dp"
+            app:boxCornerRadiusBottomStart="12dp"
+            app:boxCornerRadiusTopEnd="12dp"
+            app:boxCornerRadiusTopStart="12dp"
+            app:boxStrokeColor="@color/primaryColor"
+            app:hintTextColor="@color/primaryColor">
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/et_edit_phone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="phone" />
+                android:inputType="phone"
+                android:textColor="@color/textPrimary"
+                android:textSize="15sp" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:hint="Address / Hostel">
+            android:layout_marginTop="16dp"
+            android:hint="Address / Hostel"
+            app:boxCornerRadiusBottomEnd="12dp"
+            app:boxCornerRadiusBottomStart="12dp"
+            app:boxCornerRadiusTopEnd="12dp"
+            app:boxCornerRadiusTopStart="12dp"
+            app:boxStrokeColor="@color/primaryColor"
+            app:hintTextColor="@color/primaryColor">
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/et_edit_address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textMultiLine" />
+                android:inputType="textMultiLine"
+                android:textColor="@color/textPrimary"
+                android:textSize="15sp" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:hint="Interests (comma separated)">
+            android:layout_marginTop="16dp"
+            android:hint="Interests (comma separated)"
+            app:boxCornerRadiusBottomEnd="12dp"
+            app:boxCornerRadiusBottomStart="12dp"
+            app:boxCornerRadiusTopEnd="12dp"
+            app:boxCornerRadiusTopStart="12dp"
+            app:boxStrokeColor="@color/primaryColor"
+            app:hintTextColor="@color/primaryColor">
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/et_edit_interests"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="text" />
+                android:inputType="text"
+                android:textColor="@color/textPrimary"
+                android:textSize="15sp" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_save_edit"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:padding="12dp"
+            android:layout_height="56dp"
+            android:layout_marginTop="28dp"
             android:text="Save Changes"
             android:textAllCaps="false"
-            app:cornerRadius="8dp" />
+            android:textStyle="bold"
+            android:textSize="16sp"
+            app:cornerRadius="16dp"
+            app:backgroundTint="@color/primaryColor" />
 
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>

@@ -4,38 +4,72 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F8FAFC">
+    android:background="@color/background">
 
-    <View
-        android:id="@+id/header_bg"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="120dp"
-        android:background="@drawable/gradient_primary"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@color/background">
 
-    <TextView
-        android:id="@+id/tv_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="54dp"
-        android:text="Marketplace"
-        android:textColor="#FFFFFF"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="20dp"
+            android:background="@color/background">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_marketplace"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginTop="16dp"
-        android:paddingHorizontal="16dp"
-        android:clipToPadding="false"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/header_bg"
-        tools:listitem="@layout/item_marketplace" />
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginBottom="16dp"
+                app:cardCornerRadius="28dp"
+                app:cardElevation="3dp"
+                app:strokeWidth="0dp"
+                app:cardBackgroundColor="@color/surface">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="2dp">
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/ic_settings_black_24dp"
+                        app:tint="@color/textSecondary" />
+
+                    <EditText
+                        android:id="@+id/edit_search_marketplace"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@android:color/transparent"
+                        android:hint="Search items to buy..."
+                        android:padding="14dp"
+                        android:textColor="@color/textPrimary"
+                        android:textColorHint="@color/textSecondary"
+                        android:textSize="15sp"
+                        android:importantForAutofill="no"
+                        android:inputType="text"/>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_marketplace"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:paddingHorizontal="16dp"
+            android:clipToPadding="false"
+            tools:listitem="@layout/item_marketplace" />
+
+    </LinearLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_add_item"
@@ -43,10 +77,11 @@
         android:layout_height="wrap_content"
         android:layout_margin="24dp"
         android:contentDescription="Sell Item"
-        android:src="@drawable/ic_plus"
+        app:srcCompat="@drawable/ic_plus"
         app:backgroundTint="@color/primaryColor"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:tint="#FFFFFF" />
+        app:tint="@color/white"
+        app:elevation="6dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

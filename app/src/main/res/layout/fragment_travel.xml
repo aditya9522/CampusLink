@@ -5,71 +5,126 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/background"
-    android:paddingTop="8dp">
+    android:background="@color/background">
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="140dp"
-        android:layout_margin="16dp"
-        android:background="@drawable/gradient_primary"
-        android:backgroundTint="#6366F1" />
-
-    <com.google.android.material.card.MaterialCardView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="32dp"
-        android:layout_marginTop="-90dp"
-        app:cardCornerRadius="16dp"
-        app:cardElevation="6dp">
+        android:orientation="vertical"
+        android:paddingTop="20dp"
+        android:background="@color/background">
 
-        <LinearLayout
+        <!-- Hero / CTA card -->
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="16dp">
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginBottom="16dp"
+            app:cardCornerRadius="24dp"
+            app:cardElevation="4dp"
+            app:strokeWidth="0dp"
+            app:cardBackgroundColor="@color/surface">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/travel_hero_title"
-                android:textStyle="bold"
-                android:textSize="18sp"
-                android:textColor="@color/black" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="@string/travel_hero_subtitle"
-                android:textSize="12sp"
-                android:textColor="@color/textSecondary" />
-
-            <com.google.android.material.button.MaterialButton
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="@string/travel_btn_post"
-                android:textAllCaps="false"
-                app:cornerRadius="12dp"
-                android:backgroundTint="@color/primaryColor" />
-        </LinearLayout>
-    </com.google.android.material.card.MaterialCardView>
+                android:orientation="vertical"
+                android:padding="20dp">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="24dp"
-        android:text="@string/travel_section_title"
-        android:textStyle="bold"
-        android:textColor="@color/textPrimary" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/travel_hero_title"
+                    android:textStyle="bold"
+                    android:textSize="20sp"
+                    android:textColor="@color/textPrimary"
+                    android:letterSpacing="-0.02" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:text="@string/travel_hero_subtitle"
+                    android:textSize="14sp"
+                    android:textColor="@color/textSecondary"
+                    android:lineSpacingExtra="2dp" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_post_travel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:text="@string/travel_btn_post"
+                    android:textAllCaps="false"
+                    android:textStyle="bold"
+                    android:textSize="15sp"
+                    app:cornerRadius="14dp"
+                    android:backgroundTint="@color/primaryColor"
+                    android:paddingVertical="12dp" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Search bar -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginBottom="8dp"
+            app:cardCornerRadius="28dp"
+            app:cardElevation="2dp"
+            app:strokeWidth="0dp"
+            app:cardBackgroundColor="@color/surface">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="2dp">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_settings_black_24dp"
+                    app:tint="@color/textSecondary" />
+
+                <EditText
+                    android:id="@+id/edit_search_travel"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@android:color/transparent"
+                    android:hint="Search destination, mode…"
+                    android:padding="14dp"
+                    android:textColor="@color/textPrimary"
+                    android:textColorHint="@color/textSecondary"
+                    android:textSize="15sp"
+                    android:importantForAutofill="no"
+                    android:inputType="text" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="8dp"
+            android:text="@string/travel_section_title"
+            android:textStyle="bold"
+            android:textColor="@color/primaryColor"
+            android:textSize="15sp"
+            android:letterSpacing="0.05"
+            android:textAllCaps="true" />
+    </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerview_travel"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="12dp"
+        android:paddingHorizontal="16dp"
+        android:clipToPadding="false"
         app:layoutManager="LinearLayoutManager"
         tools:listitem="@layout/item_travel"
         tools:context=".ui.travel.TravelFragment" />

@@ -69,4 +69,32 @@ class ProfileViewModel(private val repository: AppRepository) : ViewModel() {
             }
         }
     }
+    fun uploadProfileImage(file: java.io.File) {
+        viewModelScope.launch {
+            _loading.value = true
+            _error.value = null
+            try {
+                val updatedUser = repository.uploadProfileImage(file)
+                _user.value = updatedUser
+            } catch (e: Exception) {
+                _error.value = e.message
+            } finally {
+                _loading.value = false
+            }
+        }
+    }
+
+    fun uploadVerificationID(file: java.io.File, onDone: () -> Unit) {
+        viewModelScope.launch {
+            _loading.value = true
+            try {
+                repository.uploadVerificationID(file)
+                onDone()
+            } catch (e: Exception) {
+                _error.value = e.message
+            } finally {
+                _loading.value = false
+            }
+        }
+    }
 }

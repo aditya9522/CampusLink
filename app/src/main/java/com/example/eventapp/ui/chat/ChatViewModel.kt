@@ -48,11 +48,15 @@ class ChatViewModel(private val repository: AppRepository) : ViewModel() {
             repository.wsMessages.collectLatest { json ->
                 val current = _messages.value.orEmpty().toMutableList()
                 val senderId = json.optInt("sender_id")
+                val senderName = json.optString("sender_name", "User $senderId")
+                // Use current time for WS messages since they may not carry a timestamp
+                val now = java.text.SimpleDateFormat("HH:mm", java.util.Locale.getDefault())
+                    .format(java.util.Date())
                 val newMessage = ChatMessage(
                     id = json.optInt("id", System.currentTimeMillis().toInt()),
-                    senderName = if (senderId == currentUserId) "Me" else "User $senderId",
+                    senderName = if (senderId == currentUserId) "Me" else senderName,
                     text = json.optString("content"),
-                    timestamp = "Just now",
+                    timestamp = now,
                     isMe = senderId == currentUserId
                 )
                 current.add(newMessage)
@@ -86,7 +90,7 @@ class ChatViewModel(private val repository: AppRepository) : ViewModel() {
 
     private fun MessageResponse.toChatMessage() = ChatMessage(
         id = id,
-        senderName = if (senderId == currentUserId) "Me" else "User $senderId",
+        senderName = if (senderId == currentUserId) "Me" else (senderName ?: "User $senderId"),
         text = content,
         timestamp = timestamp.takeLast(8),
         isMe = senderId == currentUserId

@@ -1,59 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="200dp"
+    android:layout_height="210dp"
     android:background="@drawable/gradient_primary"
-    android:gravity="bottom"
-    android:orientation="vertical"
-    android:padding="24dp"
-    android:paddingTop="64dp">
+    android:paddingHorizontal="25dp"
+    android:paddingTop="46dp">
 
-    <ImageView
+    <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/nav_header_image"
-        android:layout_width="64dp"
-        android:layout_height="64dp"
-        android:contentDescription="@string/nav_header_desc"
-        app:srcCompat="@mipmap/ic_launcher_round" />
+        android:layout_width="72dp"
+        android:layout_height="72dp"
+        android:src="@drawable/avatar_1"
+        android:padding="2dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize50Percent"
+        app:strokeColor="@color/white"
+        app:strokeWidth="2.5dp" />
 
     <TextView
         android:id="@+id/nav_header_name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:text="@string/nav_header_user_name"
-        android:textColor="#FFFFFF"
-        android:textSize="18sp"
-        android:textStyle="bold" />
-
-    <TextView
-        android:id="@+id/nav_header_email"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/nav_header_user_info"
-        android:textColor="#E0E7FF"
-        android:textSize="12sp" />
+        android:layout_marginTop="16dp"
+        android:text="@string/nav_header_user_name"
+        android:textColor="@color/white"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:letterSpacing="-0.02"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/nav_header_image" />
 
     <TextView
         android:id="@+id/nav_header_college"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
-        android:text="College Name"
-        android:textColor="#E0E7FF"
-        android:textSize="12sp"
-        android:textStyle="italic" />
+        android:text="@string/nav_header_user_info"
+        android:textColor="#C7D2FE"
+        android:textSize="14sp"
+        android:alpha="0.9"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/nav_header_name" />
 
-    <TextView
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/badge_live"
-        android:backgroundTint="#10B981"
-        android:paddingHorizontal="8dp"
-        android:paddingVertical="2dp"
-        android:text="@string/nav_header_verified"
-        android:textColor="#FFFFFF"
-        android:textSize="10sp"
-        android:textStyle="bold" />
-</LinearLayout>
+        android:layout_marginTop="12dp"
+        android:background="@drawable/badge_category"
+        android:backgroundTint="#26FFFFFF"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingHorizontal="10dp"
+        android:paddingVertical="3dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/nav_header_college">
+
+        <ImageView
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:layout_marginEnd="6dp"
+            android:src="@drawable/ic_check_box_on_background"
+            app:tint="@color/white" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="VERIFIED STUDENT"
+            android:textColor="@color/white"
+            android:textSize="9sp"
+            android:textStyle="bold"
+            android:letterSpacing="0.05"
+            android:textAllCaps="true" />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

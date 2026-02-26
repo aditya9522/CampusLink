@@ -10,14 +10,21 @@
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/Theme.EventApp.AppBarOverlay">
+        android:background="@color/surface"
+        app:elevation="0dp">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
+            android:background="@color/surface"
+            app:titleTextColor="@color/textPrimary"
             app:popupTheme="@style/Theme.EventApp.PopupOverlay" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/dividerColor" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -25,20 +32,16 @@
         android:id="@+id/content_main"
         layout="@layout/content_main" />
 
-    <!-- This CoordinatorLayout is to dodge the BottomNavigationView when the Snackbar is shown -->
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="56dp"
-        android:background="@android:color/transparent">
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab_create_event"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end"
-            android:layout_margin="16dp"
-            android:contentDescription="@string/create_event_title_main"
-            app:srcCompat="@android:drawable/ic_menu_add" />
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_create_event"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="80dp"
+        android:contentDescription="Create Event"
+        app:srcCompat="@drawable/ic_plus"
+        app:backgroundTint="@color/primaryColor"
+        app:tint="@color/white"
+        app:elevation="6dp" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

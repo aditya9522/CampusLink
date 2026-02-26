@@ -60,6 +60,15 @@ interface ApiService {
     @POST("api/v1/events/{id}/register")
     suspend fun registerForEvent(@Path("id") id: Int): Response<Any>
 
+    @Multipart
+    @POST("api/v1/events/upload-image")
+    suspend fun uploadEventImage(@Part file: okhttp3.MultipartBody.Part): Response<ImageUrlResponse>
+
+    // ─── Colleges ────────────────────────────────────────────────────────────
+
+    @GET("api/v1/colleges/")
+    suspend fun getColleges(): Response<List<CollegeResponse>>
+
     // ─── Clubs ───────────────────────────────────────────────────────────────
 
     @GET("api/v1/clubs/")

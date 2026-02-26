@@ -1,6 +1,8 @@
 package com.example.eventapp.ui.events
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,6 +20,7 @@ import com.example.eventapp.R
 import com.example.eventapp.data.Event
 import com.example.eventapp.databinding.FragmentEventsBinding
 import com.example.eventapp.databinding.ItemEventBinding
+import org.json.JSONObject
 
 class EventsFragment : Fragment() {
 
@@ -25,6 +28,11 @@ class EventsFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var eventsViewModel: EventsViewModel
+    private lateinit var adapter: EventsAdapter
+
+    // Currently active category filter ("All", "Fests", "Workshops", "Sports")
+    private var activeFilter = "All"
+    private var searchQuery = ""
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -36,30 +44,53 @@ class EventsFragment : Fragment() {
         eventsViewModel = ViewModelProvider(this, factory)[EventsViewModel::class.java]
 
         _binding = FragmentEventsBinding.inflate(inflater, container, false)
-        val root: View = binding.root
 
-        val adapter = EventsAdapter { event ->
+        adapter = EventsAdapter { event ->
             eventsViewModel.registerForEvent(event.id) { success, msg ->
-                Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
+                // Parse JSON detail error if needed
+                val displayMsg = if (!success) {
+                    tryParseDetailMessage(msg) ?: msg
+                } else msg
+                Toast.makeText(context, displayMsg, Toast.LENGTH_SHORT).show()
             }
         }
         binding.recyclerviewEvents.adapter = adapter
 
         eventsViewModel.events.observe(viewLifecycleOwner) {
-            adapter.submitList(it)
-        }
-
-        eventsViewModel.loading.observe(viewLifecycleOwner) { loading ->
-            // You can show/hide a progress bar here if added to the layout
+            applyFilters(it)
         }
 
         eventsViewModel.error.observe(viewLifecycleOwner) { error ->
             if (!error.isNullOrBlank()) {
-                Toast.makeText(context, "Error: $error", Toast.LENGTH_SHORT).show()
+                val displayMsg = tryParseDetailMessage(error) ?: error
+                Toast.makeText(context, displayMsg, Toast.LENGTH_SHORT).show()
             }
         }
 
-        binding.eventsTabLayout.addOnTabSelectedListener(object : com.google.android.material.tabs.TabLayout.OnTabSelectedListener {
+        // ── Filter chips ─────────────────────────────────────────────────────
+        binding.chipGroupFilters.setOnCheckedStateChangeListener { group, checkedIds ->
+            activeFilter = when {
+                checkedIds.contains(R.id.chip_fests) -> "Fests"
+                checkedIds.contains(R.id.chip_workshops) -> "Workshops"
+                checkedIds.contains(R.id.chip_sports) -> "Sports"
+                else -> "All"
+            }
+            applyFilters(eventsViewModel.events.value ?: emptyList())
+        }
+
+        // ── Search bar ───────────────────────────────────────────────────────
+        binding.editSearchEvents.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                searchQuery = s?.toString()?.trim() ?: ""
+                applyFilters(eventsViewModel.events.value ?: emptyList())
+            }
+            override fun afterTextChanged(s: Editable?) {}
+        })
+
+        // ── Tab layout ───────────────────────────────────────────────────────
+        binding.eventsTabLayout.addOnTabSelectedListener(object :
+            com.google.android.material.tabs.TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: com.google.android.material.tabs.TabLayout.Tab?) {
                 if (tab?.position == 1) {
                     binding.searchFilterContainer.visibility = View.GONE
@@ -79,7 +110,22 @@ class EventsFragment : Fragment() {
             binding.eventsTabLayout.getTabAt(0)?.select()
         }
 
-        return root
+        return binding.root
+    }
+
+    private fun applyFilters(allEvents: List<Event>) {
+        val filtered = allEvents.filter { event ->
+            val matchesSearch = searchQuery.isEmpty() ||
+                event.title.contains(searchQuery, ignoreCase = true) ||
+                event.location.contains(searchQuery, ignoreCase = true)
+
+            val matchesCategory = activeFilter == "All" ||
+                event.category.contains(activeFilter, ignoreCase = true) ||
+                event.title.contains(activeFilter, ignoreCase = true)
+
+            matchesSearch && matchesCategory
+        }
+        adapter.submitList(filtered)
     }
 
     override fun onDestroyView() {
@@ -91,7 +137,6 @@ class EventsFragment : Fragment() {
         ListAdapter<Event, EventsViewHolder>(object : DiffUtil.ItemCallback<Event>() {
             override fun areItemsTheSame(oldItem: Event, newItem: Event): Boolean =
                 oldItem.id == newItem.id
-
             override fun areContentsTheSame(oldItem: Event, newItem: Event): Boolean =
                 oldItem == newItem
         }) {
@@ -107,10 +152,15 @@ class EventsFragment : Fragment() {
             holder.title.text = event.title
             holder.details.text = context.getString(R.string.event_details_format, event.date, event.location)
             holder.liveBadge.visibility = if (position % 2 == 0) View.VISIBLE else View.GONE
-            holder.buddyText.text = context.getString(R.string.label_buddy_finding_format, (10..50).random())
+            holder.buddyText.text =
+                context.getString(R.string.label_buddy_finding_format, (10..50).random())
 
             holder.findBuddyBtn.setOnClickListener {
-                Toast.makeText(context, context.getString(R.string.event_finding_buddy_toast, event.title), Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    context,
+                    context.getString(R.string.event_finding_buddy_toast, event.title),
+                    Toast.LENGTH_SHORT
+                ).show()
                 holder.findBuddyBtn.findNavController().navigate(R.id.nav_chat)
             }
 
@@ -128,5 +178,17 @@ class EventsFragment : Fragment() {
         val liveBadge: View = binding.eventLiveBadge
         val findBuddyBtn = binding.btnFindBuddy
         val buddyText: TextView = binding.buddyText
+    }
+
+    companion object {
+        fun tryParseDetailMessage(raw: String): String? {
+            return try {
+                val json = JSONObject(raw)
+                json.optString("detail").takeIf { it.isNotBlank() }
+                    ?: json.optString("message").takeIf { it.isNotBlank() }
+            } catch (e: Exception) {
+                null
+            }
+        }
     }
 }

@@ -1,52 +1,58 @@
-<?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginHorizontal="16dp"
     android:layout_marginVertical="8dp"
+    app:cardBackgroundColor="@color/surface"
     app:cardCornerRadius="16dp"
-    app:cardElevation="2dp"
-    app:strokeWidth="0dp">
+    app:cardElevation="0dp"
+    app:strokeColor="@color/dividerColor"
+    app:strokeWidth="1dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <ImageView
+        <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/iv_item_image"
             android:layout_width="match_parent"
-            android:layout_height="180dp"
+            android:layout_height="200dp"
             android:scaleType="centerCrop"
-            android:src="@color/gray_200" />
+            android:src="@color/dividerColor"
+            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSizeTop20dp" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="16dp">
-
-            <TextView
-                android:id="@+id/tv_item_title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Engineering Mechanics Book"
-                android:textColor="#1E293B"
-                android:textSize="18sp"
-                android:textStyle="bold" />
+            android:padding="20dp">
 
             <TextView
                 android:id="@+id/tv_item_category"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:background="@drawable/chip_background"
-                android:paddingHorizontal="8dp"
-                android:paddingVertical="2dp"
+                android:background="@drawable/badge_category"
+                android:backgroundTint="@color/primaryLightColor"
+                android:paddingHorizontal="10dp"
+                android:paddingVertical="3dp"
                 android:text="BOOKS"
-                android:textColor="@color/primaryColor"
-                android:textSize="10sp"
-                android:textStyle="bold" />
+                android:textColor="@color/white"
+                android:textSize="9sp"
+                android:textStyle="bold"
+                android:letterSpacing="0.05" />
+
+            <TextView
+                android:id="@+id/tv_item_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Engineering Mechanics Book"
+                android:textColor="@color/textPrimary"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:letterSpacing="-0.02" />
 
             <TextView
                 android:id="@+id/tv_item_description"
@@ -56,14 +62,15 @@
                 android:ellipsize="end"
                 android:maxLines="2"
                 android:text="Almost new condition, barely used. Useful for 1st year students."
-                android:textColor="#64748B"
-                android:textSize="14sp" />
+                android:textColor="@color/textSecondary"
+                android:textSize="14sp"
+                android:lineHeight="20sp" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:layout_marginVertical="12dp"
-                android:background="#F1F5F9" />
+                android:layout_marginVertical="16dp"
+                android:background="@color/dividerColor" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -75,18 +82,36 @@
                     android:layout_height="wrap_content"
                     android:text="₹ 450"
                     android:textColor="@color/primaryColor"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
+                    android:textSize="22sp"
+                    android:textStyle="bold"
+                    android:letterSpacing="-0.02" />
 
-                <TextView
-                    android:id="@+id/tv_owner_name"
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
-                    android:text="By Aditya"
-                    android:textColor="#94A3B8"
-                    android:textSize="12sp" />
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:id="@+id/iv_owner_avatar"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/avatar_1"
+                        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize50Percent" />
+
+                    <TextView
+                        android:id="@+id/tv_owner_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:text="Aditya"
+                        android:textColor="@color/textSecondary"
+                        android:textSize="13sp"
+                        android:textStyle="normal" />
+
+                </LinearLayout>
 
             </RelativeLayout>
 

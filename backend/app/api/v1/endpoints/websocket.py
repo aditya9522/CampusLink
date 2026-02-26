@@ -1,4 +1,5 @@
 from fastapi import APIRouter, WebSocket, WebSocketDisconnect, Depends
+from sqlalchemy import select
 from app.websockets.manager import manager
 from app.api import deps
 from app.models.models import User, Message
@@ -37,12 +38,15 @@ async def websocket_endpoint(websocket: WebSocket, token: str):
                     )
                     db.add(new_msg)
                     await db.commit()
-                    await db.refresh(new_msg)
-                    
+                    # Fetch sender name for broadcast
+                    user_data = await db.execute(select(User.full_name).where(User.id == user_id))
+                    sender_name = user_data.scalar_one_or_none() or f"User {user_id}"
+
                     # Prepare message to broadcast
                     broadcast_data = {
                         "id": new_msg.id,
                         "sender_id": user_id,
+                        "sender_name": sender_name,
                         "content": content,
                         "channel": channel,
                         "timestamp": new_msg.timestamp.isoformat()

@@ -20,38 +20,40 @@
                 android:id="@+id/onboarding_progress"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="20dp"
                 android:progress="33"
                 app:indicatorColor="@color/primaryColor"
-                app:trackColor="#E2E8F0"
-                app:trackCornerRadius="4dp"
-                app:trackThickness="4dp" />
+                app:trackColor="@color/dividerColor"
+                app:trackCornerRadius="6dp"
+                app:trackThickness="6dp" />
 
             <TextView
                 android:id="@+id/step_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="12dp"
                 android:text="Step 1 of 3: Location"
                 android:textColor="@color/textSecondary"
-                android:textSize="12sp"
-                android:textStyle="bold" />
+                android:textSize="13sp"
+                android:textStyle="bold"
+                android:letterSpacing="0.05"
+                android:textAllCaps="true" />
 
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
-                app:cardCornerRadius="24dp"
-                app:cardElevation="0dp"
-                app:strokeColor="@color/dividerColor"
-                app:strokeWidth="1dp">
+                app:cardCornerRadius="28dp"
+                app:cardElevation="2dp"
+                app:strokeWidth="0dp"
+                app:cardBackgroundColor="@color/surface">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="24dp">
+                    android:padding="28dp">
 
                     <TextView
                         android:id="@+id/onboarding_title"
@@ -59,17 +61,19 @@
                         android:layout_height="wrap_content"
                         android:text="Select Your Country"
                         android:textColor="@color/textPrimary"
-                        android:textSize="24sp"
-                        android:textStyle="bold" />
+                        android:textSize="26sp"
+                        android:textStyle="bold"
+                        android:letterSpacing="-0.02" />
 
                     <TextView
                         android:id="@+id/onboarding_subtitle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:text="We currently support major education hubs."
+                        android:text="We currently support major education hubs worldwide."
                         android:textColor="@color/textSecondary"
-                        android:textSize="14sp" />
+                        android:textSize="15sp"
+                        android:lineSpacingExtra="2dp" />
 
                     <!-- Country Selection -->
                     <com.google.android.material.textfield.TextInputLayout
@@ -77,15 +81,20 @@
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="24dp"
-                        android:hint="Country">
+                        android:layout_marginTop="28dp"
+                        android:hint="Country"
+                        app:boxCornerRadiusBottomEnd="12dp"
+                        app:boxCornerRadiusBottomStart="12dp"
+                        app:boxCornerRadiusTopEnd="12dp"
+                        app:boxCornerRadiusTopStart="12dp">
 
                         <AutoCompleteTextView
                             android:id="@+id/dropdown_country"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="none"
-                            android:text="India" />
+                            android:text="India"
+                            android:textSize="15sp" />
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <!-- College Selection (Initially Hidden) -->
@@ -96,13 +105,18 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
                         android:hint="Select College"
-                        android:visibility="gone">
+                        android:visibility="gone"
+                        app:boxCornerRadiusBottomEnd="12dp"
+                        app:boxCornerRadiusBottomStart="12dp"
+                        app:boxCornerRadiusTopEnd="12dp"
+                        app:boxCornerRadiusTopStart="12dp">
 
                         <AutoCompleteTextView
                             android:id="@+id/dropdown_college"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:inputType="none" />
+                            android:inputType="none"
+                            android:textSize="15sp" />
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <!-- ID Card Section (Initially Hidden) -->
@@ -125,11 +139,13 @@
                         <com.google.android.material.card.MaterialCardView
                             android:id="@+id/btn_scan_card"
                             android:layout_width="match_parent"
-                            android:layout_height="120dp"
+                            android:layout_height="130dp"
                             android:layout_marginTop="12dp"
-                            app:cardBackgroundColor="#F1F5F9"
+                            app:cardBackgroundColor="@color/dividerColor"
                             app:cardCornerRadius="16dp"
-                            app:cardElevation="0dp">
+                            app:cardElevation="0dp"
+                            app:strokeWidth="1dp"
+                            app:strokeColor="@color/gray_200">
 
                             <LinearLayout
                                 android:layout_width="wrap_content"
@@ -139,18 +155,19 @@
                                 android:orientation="vertical">
 
                                 <ImageView
-                                    android:layout_width="32dp"
-                                    android:layout_height="32dp"
+                                    android:layout_width="36dp"
+                                    android:layout_height="36dp"
                                     android:src="@drawable/ic_camera_black_24dp"
                                     app:tint="@color/primaryColor" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginTop="8dp"
+                                    android:layout_marginTop="10dp"
                                     android:text="Scan or Upload College ID"
                                     android:textColor="@color/primaryColor"
-                                    android:textStyle="bold" />
+                                    android:textStyle="bold"
+                                    android:textSize="14sp" />
                             </LinearLayout>
                         </com.google.android.material.card.MaterialCardView>
 
@@ -161,20 +178,26 @@
                             android:gravity="center"
                             android:text="OR"
                             android:textColor="@color/textSecondary"
-                            android:textSize="12sp" />
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
 
                         <com.google.android.material.textfield.TextInputLayout
                             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="12dp"
-                            android:hint="Enter College Roll Number / ID">
+                            android:hint="Enter College Roll Number"
+                            app:boxCornerRadiusBottomEnd="12dp"
+                            app:boxCornerRadiusBottomStart="12dp"
+                            app:boxCornerRadiusTopEnd="12dp"
+                            app:boxCornerRadiusTopStart="12dp">
 
                             <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/edit_college_id"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:inputType="textCapCharacters" />
+                                android:inputType="textCapCharacters"
+                                android:textSize="15sp" />
                         </com.google.android.material.textfield.TextInputLayout>
                     </LinearLayout>
 
@@ -182,11 +205,13 @@
                         android:id="@+id/btn_next"
                         style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
                         android:layout_width="match_parent"
-                        android:layout_height="56dp"
-                        android:layout_marginTop="32dp"
-                        android:text="Next"
+                        android:layout_height="58dp"
+                        android:layout_marginTop="36dp"
+                        android:text="Continue"
                         android:textAllCaps="false"
-                        app:cornerRadius="28dp" />
+                        android:textStyle="bold"
+                        android:textSize="16sp"
+                        app:cornerRadius="16dp" />
 
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>

@@ -1,54 +1,64 @@
-<?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp"
-    app:cardCornerRadius="12dp"
-    app:cardElevation="4dp">
+    android:layout_marginHorizontal="16dp"
+    android:layout_marginVertical="8dp"
+    app:cardBackgroundColor="@color/surface"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="0dp"
+    app:strokeColor="@color/dividerColor"
+    app:strokeWidth="1dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="16dp">
 
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/event_image"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_events"
+            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize50Percent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:strokeColor="@color/dividerColor"
+            app:strokeWidth="1dp" />
+
         <TextView
             android:id="@+id/event_live_badge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/badge_live"
-            android:paddingHorizontal="8dp"
-            android:paddingVertical="2dp"
+            android:background="@drawable/badge_category"
+            android:backgroundTint="@color/errorColor"
+            android:paddingHorizontal="10dp"
+            android:paddingVertical="3dp"
             android:text="@string/label_live"
-            android:textColor="#FFFFFF"
+            android:textColor="@color/white"
             android:textSize="10sp"
             android:textStyle="bold"
-            android:visibility="visible"
+            android:letterSpacing="0.05"
+            android:textAllCaps="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-
-        <ImageView
-            android:id="@+id/event_image"
-            android:layout_width="72dp"
-            android:layout_height="72dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/ic_events"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/event_live_badge" />
 
         <TextView
             android:id="@+id/event_title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:text="Event Title"
+            android:layout_marginEnd="8dp"
+            android:text="Summer Tech Workshop"
             android:textColor="@color/textPrimary"
-            android:textSize="18sp"
+            android:textSize="17sp"
             android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:letterSpacing="-0.01"
+            app:layout_constraintEnd_toStartOf="@id/event_live_badge"
             app:layout_constraintStart_toEndOf="@id/event_image"
-            app:layout_constraintTop_toBottomOf="@id/event_live_badge" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/event_details"
@@ -56,56 +66,70 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="4dp"
-            android:text="Date | Location"
+            android:text="Oct 24 • Main Auditorium"
             android:textColor="@color/textSecondary"
+            android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/event_image"
             app:layout_constraintTop_toBottomOf="@id/event_title" />
 
         <LinearLayout
             android:id="@+id/buddy_intent_layout"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="12dp"
             android:gravity="center_vertical"
             android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/event_image"
             app:layout_constraintTop_toBottomOf="@id/event_details">
 
             <com.google.android.material.imageview.ShapeableImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
                 android:src="@drawable/avatar_4"
-                app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize50Percent" />
+                app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize50Percent"
+                app:strokeColor="@color/white"
+                app:strokeWidth="1.5dp"/>
 
             <com.google.android.material.imageview.ShapeableImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
                 android:layout_marginStart="-8dp"
                 android:src="@drawable/avatar_5"
-                app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize50Percent" />
+                app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize50Percent"
+                app:strokeColor="@color/white"
+                app:strokeWidth="1.5dp"/>
 
             <TextView
                 android:id="@+id/buddy_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:text="45 students looking for buddies"
-                android:textColor="@color/textSecondary"
-                android:textSize="11sp" />
+                android:text="12 interested"
+                android:textColor="@color/primaryColor"
+                android:textSize="12sp"
+                android:textStyle="normal" />
         </LinearLayout>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_find_buddy"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="@string/label_find_buddy"
-            android:textAllCaps="false"
-            app:cornerRadius="20dp"
+            android:textColor="@color/primaryColor"
+            android:textSize="13sp"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/buddy_intent_layout" />
+            app:layout_constraintTop_toBottomOf="@id/buddy_intent_layout"
+            android:paddingHorizontal="12dp"
+            android:minHeight="0dp"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-</androidx.cardview.widget.CardView>
+</com.google.android.material.card.MaterialCardView>

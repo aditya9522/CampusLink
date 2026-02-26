@@ -7,6 +7,24 @@ import com.example.eventapp.network.models.*
 import kotlinx.coroutines.flow.first
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.asRequestBody
+import org.json.JSONObject
+import org.json.JSONException
+
+/**
+ * Parses a raw error body string like {"detail":"Already registered"} into
+ * a human-readable message. Falls back gracefully on plain-text or unexpected formats.
+ */
+private fun parseErrorBody(raw: String?, fallback: String): String {
+    if (raw.isNullOrBlank()) return fallback
+    return try {
+        val json = JSONObject(raw)
+        json.optString("detail").takeIf { it.isNotBlank() }
+            ?: json.optString("message").takeIf { it.isNotBlank() }
+            ?: raw
+    } catch (e: JSONException) {
+        raw
+    }
+}
 
 /**
  * Single repository used by all ViewModels.
@@ -27,13 +45,13 @@ class AppRepository(
             tokenManager.saveToken(token.accessToken)
             return token
         }
-        throw Exception(response.errorBody()?.string() ?: "Login failed")
+        throw Exception(parseErrorBody(response.errorBody()?.string(), "Login failed"))
     }
 
     suspend fun register(email: String, password: String, fullName: String): UserResponse {
         val response = api.register(RegisterRequest(email, password, fullName))
         if (response.isSuccessful) return response.body()!!
-        throw Exception(response.errorBody()?.string() ?: "Registration failed")
+        throw Exception(parseErrorBody(response.errorBody()?.string(), "Registration failed"))
     }
 
     suspend fun logout() = tokenManager.clearToken()
@@ -45,13 +63,13 @@ class AppRepository(
     suspend fun getCurrentUser(): UserResponse {
         val response = api.getCurrentUser()
         if (response.isSuccessful) return response.body()!!
-        throw Exception(response.errorBody()?.string() ?: "Failed to fetch user")
+        throw Exception(parseErrorBody(response.errorBody()?.string(), "Failed to fetch user"))
     }
 
     suspend fun updateCurrentUser(req: UserUpdateRequest): UserResponse {
         val response = api.updateCurrentUser(req)
         if (response.isSuccessful) return response.body()!!
-        throw Exception(response.errorBody()?.string() ?: "Failed to update profile")
+        throw Exception(parseErrorBody(response.errorBody()?.string(), "Failed to update profile"))
     }
 
     suspend fun uploadProfileImage(file: java.io.File): UserResponse {
@@ -59,7 +77,7 @@ class AppRepository(
         val body = okhttp3.MultipartBody.Part.createFormData("file", file.name, requestFile)
         val response = api.uploadProfileImage(body)
         if (response.isSuccessful) return response.body()!!
-        throw Exception(response.errorBody()?.string() ?: "Failed to upload image")
+        throw Exception(parseErrorBody(response.errorBody()?.string(), "Failed to upload image"))
     }
 
     // ─── Events ──────────────────────────────────────────────────────────────
@@ -67,13 +85,13 @@ class AppRepository(
     suspend fun getEvents(): List<EventResponse> {
         val response = api.getEvents()
         if (response.isSuccessful) return response.body() ?: emptyList()
-        throw Exception(response.errorBody()?.string() ?: "Failed to fetch events")
+        throw Exception(parseErrorBody(response.errorBody()?.string(), "Failed to fetch events"))
     }
 
     suspend fun createEvent(req: EventCreateRequest): EventResponse {
         val response = api.createEvent(req)
         if (response.isSuccessful) return response.body()!!
-        throw Exception(response.errorBody()?.string() ?: "Failed to create event")
+        throw Exception(parseErrorBody(response.errorBody()?.string(), "Failed to create event"))
     }
 
     suspend fun updateEvent(id: Int, req: EventCreateRequest): EventResponse {
@@ -91,7 +109,23 @@ class AppRepository(
     suspend fun registerForEvent(eventId: Int) {
         val response = api.registerForEvent(eventId)
         if (!response.isSuccessful)
-            throw Exception(response.errorBody()?.string() ?: "Failed to register")
+            throw Exception(parseErrorBody(response.errorBody()?.string(), "Failed to register for event"))
+    }
+
+    suspend fun uploadEventImage(file: java.io.File): String {
+        val requestFile = file.asRequestBody("image/*".toMediaTypeOrNull())
+        val body = okhttp3.MultipartBody.Part.createFormData("file", file.name, requestFile)
+        val response = api.uploadEventImage(body)
+        if (response.isSuccessful) return response.body()!!.url
+        throw Exception(parseErrorBody(response.errorBody()?.string(), "Failed to upload event image"))
+    }
+
+    // ─── Colleges ────────────────────────────────────────────────────────────
+
+    suspend fun getColleges(): List<CollegeResponse> {
+        val response = api.getColleges()
+        if (response.isSuccessful) return response.body() ?: emptyList()
+        throw Exception(response.errorBody()?.string() ?: "Failed to fetch colleges")
     }
 
     // ... (Clubs, Communities, Travel remain the same)

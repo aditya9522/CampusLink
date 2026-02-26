@@ -5,7 +5,6 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -37,10 +36,10 @@ class ChatFragment : Fragment() {
         chatViewModel = ViewModelProvider(this, factory)[ChatViewModel::class.java]
 
         _binding = FragmentChatBinding.inflate(inflater, container, false)
-        
+
         val adapter = ChatAdapter()
         binding.chatRecycler.adapter = adapter
-        
+
         chatViewModel.messages.observe(viewLifecycleOwner) { messages ->
             adapter.submitList(messages)
             if (messages.isNotEmpty()) {
@@ -57,15 +56,15 @@ class ChatFragment : Fragment() {
         }
 
         chatViewModel.loadMessages()
-        
+
         binding.btnSend.setOnClickListener {
-            val text = binding.editMessage.text.toString()
+            val text = binding.editMessage.text.toString().trim()
             if (text.isNotEmpty()) {
                 chatViewModel.sendMessage(text)
                 binding.editMessage.text.clear()
             }
         }
-        
+
         return binding.root
     }
 
@@ -85,23 +84,60 @@ class ChatFragment : Fragment() {
 
         override fun onBindViewHolder(holder: ChatViewHolder, position: Int) {
             val msg = getItem(position)
+            val ctx = holder.itemView.context
+
             holder.text.text = msg.text
-            holder.sender.text = if (msg.isMe) holder.itemView.context.getString(R.string.chat_sender_me) else msg.senderName
-            holder.time.text = msg.timestamp
-            
-            val params = holder.messageCard.layoutParams as LinearLayout.LayoutParams
+            holder.time.text = formatTimestamp(msg.timestamp)
+
+            val params = holder.messageCard.layoutParams as android.widget.LinearLayout.LayoutParams
+
             if (msg.isMe) {
+                // Hide sender name for own messages
+                holder.sender.visibility = View.GONE
                 params.gravity = Gravity.END
-                holder.messageCard.setCardBackgroundColor(holder.itemView.context.getColor(R.color.primaryLightColor))
-                holder.sender.setTextColor(holder.itemView.context.getColor(R.color.white))
-                holder.text.setTextColor(holder.itemView.context.getColor(R.color.white))
+                params.marginStart = 128
+                params.marginEnd = 0
+                holder.messageCard.layoutParams = params
+
+                // "Sent" bubble: primary color
+                holder.messageCard.setCardBackgroundColor(ctx.getColor(R.color.primaryColor))
+                holder.text.setTextColor(ctx.getColor(R.color.white))
+                holder.time.setTextColor(ctx.getColor(android.R.color.white))
+                holder.time.alpha = 0.75f
             } else {
+                // Show sender name for others
+                holder.sender.visibility = View.VISIBLE
+                holder.sender.text = msg.senderName
                 params.gravity = Gravity.START
-                holder.messageCard.setCardBackgroundColor(holder.itemView.context.getColor(R.color.white))
-                holder.sender.setTextColor(holder.itemView.context.getColor(R.color.primaryColor))
-                holder.text.setTextColor(holder.itemView.context.getColor(R.color.textPrimary))
+                params.marginStart = 0
+                params.marginEnd = 128
+                holder.messageCard.layoutParams = params
+
+                // "Received" bubble: surface card, theme-aware
+                holder.messageCard.setCardBackgroundColor(ctx.getColor(R.color.surface))
+                holder.text.setTextColor(ctx.getColor(R.color.textPrimary))
+                holder.sender.setTextColor(ctx.getColor(R.color.primaryColor))
+                holder.time.setTextColor(ctx.getColor(R.color.textSecondary))
+                holder.time.alpha = 0.75f
             }
-            holder.messageCard.layoutParams = params
+        }
+
+        private fun formatTimestamp(raw: String): String {
+            return try {
+                // raw could be "HH:mm:ss" or a full ISO datetime
+                if (raw.contains("T")) {
+                    // ISO: 2024-03-15T14:30:00
+                    val parts = raw.split("T")
+                    val timePart = parts[1].take(5) // HH:mm
+                    timePart
+                } else if (raw.length >= 5) {
+                    raw.take(5) // HH:mm
+                } else {
+                    raw
+                }
+            } catch (e: Exception) {
+                raw
+            }
         }
     }
 

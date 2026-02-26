@@ -13,32 +13,46 @@ import com.example.eventapp.EventApplication
 import com.example.eventapp.R
 import androidx.lifecycle.lifecycleScope
 import com.example.eventapp.databinding.FragmentProfileBinding
+import com.example.eventapp.network.AppConfig
+import kotlinx.coroutines.launch
 
 class ProfileFragment : Fragment() {
 
     private var _binding: FragmentProfileBinding? = null
     private val binding get() = _binding!!
+    private lateinit var profileViewModel: ProfileViewModel
 
-    private val imagePicker = registerForActivityResult(androidx.activity.result.contract.ActivityResultContracts.GetContent()) { uri: android.net.Uri? ->
+    private val imagePicker = registerForActivityResult(
+        androidx.activity.result.contract.ActivityResultContracts.GetContent()
+    ) { uri: android.net.Uri? ->
         uri?.let { uploadImage(it) }
     }
 
+    private val idPicker = registerForActivityResult(
+        androidx.activity.result.contract.ActivityResultContracts.GetContent()
+    ) { uri: android.net.Uri? ->
+        uri?.let { uploadVerification(it) }
+    }
+
     private fun uploadImage(uri: android.net.Uri) {
-        val repository = (requireActivity().application as EventApplication).repository
-        
         val inputStream = requireContext().contentResolver.openInputStream(uri)
         val tempFile = java.io.File(requireContext().cacheDir, "temp_profile.jpg")
         tempFile.outputStream().use { inputStream?.copyTo(it) }
-        
-        lifecycleScope.launchWhenStarted {
+
+        viewLifecycleOwner.lifecycleScope.launch {
             try {
-                _binding?.let { it.profileImage.alpha = 0.5f }
-                repository.uploadProfileImage(tempFile)
-                Toast.makeText(context, "Profile image updated!", Toast.LENGTH_SHORT).show()
+                _binding?.profileImage?.alpha = 0.5f
+                // Use the ViewModel so the user LiveData auto-updates with new image URL
+                profileViewModel.uploadProfileImage(tempFile)
+                Toast.makeText(context, R.string.profile_image_update_success, Toast.LENGTH_SHORT).show()
             } catch (e: Exception) {
-                Toast.makeText(context, "Upload failed: ${e.message}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    context,
+                    getString(R.string.profile_image_update_failed, e.message),
+                    Toast.LENGTH_SHORT
+                ).show()
             } finally {
-                _binding?.let { it.profileImage.alpha = 1.0f }
+                _binding?.profileImage?.alpha = 1.0f
             }
         }
     }
@@ -50,51 +64,52 @@ class ProfileFragment : Fragment() {
     ): View {
         val repository = (requireActivity().application as EventApplication).repository
         val factory = AppViewModelFactory(repository)
-        val profileViewModel = ViewModelProvider(this, factory)[ProfileViewModel::class.java]
+        profileViewModel = ViewModelProvider(this, factory)[ProfileViewModel::class.java]
 
         _binding = FragmentProfileBinding.inflate(inflater, container, false)
 
         profileViewModel.user.observe(viewLifecycleOwner) { user ->
             user?.let {
-                binding.profileName.text = it.fullName ?: "Student"
-                binding.profileCollege.text = it.collegeName ?: "Class of 2026"
+                binding.profileName.text = it.fullName ?: getString(R.string.profile_name_default)
+                binding.profileCollege.text = it.collegeName ?: getString(R.string.profile_college_default)
                 binding.profileDetailEmail.text = it.email
-                binding.profileDetailPhone.text = it.phoneNumber ?: "Not provided"
-                binding.profileDetailAddress.text = it.address ?: "Not provided"
-                
-                // Load profile image
-                if (!it.profileImageUrl.isNullOrEmpty()) {
-                    val fullUrl = if (it.profileImageUrl.startsWith("http")) it.profileImageUrl else "${com.example.eventapp.network.AppConfig.BASE_URL}${it.profileImageUrl}"
+                binding.profileDetailPhone.text = it.phoneNumber ?: getString(R.string.profile_not_provided)
+                binding.profileDetailAddress.text = it.address ?: getString(R.string.profile_not_provided)
+
+                // Load profile image with Glide
+                val imageUrl = it.profileImageUrl
+                if (!imageUrl.isNullOrEmpty()) {
+                    val fullUrl = if (imageUrl.startsWith("http")) imageUrl
+                    else "${AppConfig.BASE_URL}${imageUrl}"
                     com.bumptech.glide.Glide.with(this)
                         .load(fullUrl)
                         .placeholder(R.mipmap.ic_launcher_round)
+                        .error(R.mipmap.ic_launcher_round)
+                        .circleCrop()
                         .into(binding.profileImage)
                 }
 
-                // Clear and add chips for interests
+                // Also update the navigation drawer header if possible
+                updateNavHeader(it)
+
+                // Rebuild interest chips
                 binding.profileInterestsChips.removeAllViews()
                 it.interests?.split(",")?.forEach { interest ->
                     if (interest.isNotBlank()) {
                         val chip = com.google.android.material.chip.Chip(requireContext())
                         chip.text = interest.trim()
+                        chip.isCheckable = false
                         binding.profileInterestsChips.addView(chip)
                     }
-                }
-
-                // Multi-tenancy UI logic
-                if (it.collegeId != null) {
-                    binding.root.findViewById<View>(R.id.btn_join_college)?.visibility = View.GONE
-                    binding.root.findViewById<View>(R.id.btn_verify_account)?.visibility = View.VISIBLE
-                } else {
-                    binding.root.findViewById<View>(R.id.btn_join_college)?.visibility = View.VISIBLE
-                    binding.root.findViewById<View>(R.id.btn_verify_account)?.visibility = View.GONE
                 }
             }
         }
 
         profileViewModel.error.observe(viewLifecycleOwner) { err ->
             if (!err.isNullOrBlank()) {
-                Toast.makeText(context, err, Toast.LENGTH_SHORT).show()
+                // Parse JSON error body if it looks like {"detail":"..."}
+                val message = tryParseDetailMessage(err) ?: err
+                Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -102,99 +117,89 @@ class ProfileFragment : Fragment() {
             findNavController().navigate(R.id.nav_events)
         }
 
-        // Logout logic - Binding is missing explicit ID for the logout button in the previous layout read, 
-        // I need to check the layout file again to find the button ID or assign one.
-        // Based on fragment_profile.xml: there is a button with text "@string/profile_btn_logout" 
-        // but no ID was explicitly seen in the view_file snippet (it was at the end).
-        // Let's add an ID or use findViewWithTag if needed, or better, I'll update the layout if it has no ID.
-        
-        // I will assume I added/will add android:id="@+id/btn_logout" to the button
-        binding.root.findViewById<View>(R.id.btn_logout)?.setOnClickListener {
+        binding.btnLogout.setOnClickListener {
             profileViewModel.logout {
                 requireActivity().finish()
             }
         }
 
         binding.btnEditProfile.setOnClickListener {
-            showEditProfileDialog(profileViewModel)
+            showEditProfileDialog()
         }
 
         binding.profileImage.setOnClickListener {
             imagePicker.launch("image/*")
         }
 
-        binding.root.findViewById<android.view.View>(R.id.btn_verify_account).setOnClickListener {
-            idPicker.launch("image/*")
-        }
-
-        binding.root.findViewById<android.view.View>(R.id.btn_notifications).setOnClickListener {
+        binding.btnNotifications.setOnClickListener {
             findNavController().navigate(R.id.nav_notifications)
         }
 
-        binding.root.findViewById<android.view.View>(R.id.btn_join_college).setOnClickListener {
-            showJoinCollegeDialog(repository, profileViewModel)
+        binding.tvVerifiedLabel.setOnClickListener {
+            idPicker.launch("image/*")
         }
 
         return binding.root
     }
 
-    private fun showJoinCollegeDialog(repository: com.example.eventapp.repository.AppRepository, viewModel: ProfileViewModel) {
-        val input = android.widget.EditText(requireContext())
-        input.hint = "Enter 8-digit Campus Invite Code"
-        
-        androidx.appcompat.app.AlertDialog.Builder(requireContext())
-            .setTitle("Join Your Campus")
-            .setMessage("Enter the invite code provided by your college admin to access exclusive campus events.")
-            .setView(input)
-            .setPositiveButton("Join") { _, _ ->
-                val code = input.text.toString()
-                if (code.length >= 4) {
-                    lifecycleScope.launchWhenStarted {
-                        try {
-                            repository.joinCollege(code)
-                            Toast.makeText(context, "Joined Successfully!", Toast.LENGTH_LONG).show()
-                            viewModel.loadProfile() // Refresh
-                        } catch (e: Exception) {
-                            Toast.makeText(context, e.message, Toast.LENGTH_SHORT).show()
-                        }
-                    }
-                }
-            }
-            .setNegativeButton("Cancel", null)
-            .show()
-    }
+    /** Updates the navigation drawer/sidebar header with updated user info */
+    private fun updateNavHeader(user: com.example.eventapp.network.models.UserResponse) {
+        val activity = requireActivity() as? com.example.eventapp.MainActivity ?: return
+        val navView = activity.binding.navView ?: return
+        val headerView = navView.getHeaderView(0) ?: return
 
-    private val idPicker = registerForActivityResult(androidx.activity.result.contract.ActivityResultContracts.GetContent()) { uri: android.net.Uri? ->
-        uri?.let { uploadVerification(it) }
-    }
+        headerView.findViewById<android.widget.TextView>(R.id.nav_header_name)?.text =
+            user.fullName ?: getString(R.string.nav_header_user_name)
+        headerView.findViewById<android.widget.TextView>(R.id.nav_header_college)?.text =
+            user.collegeName ?: getString(R.string.nav_header_user_info)
 
-    private fun uploadVerification(uri: android.net.Uri) {
-        val repository = (requireActivity().application as EventApplication).repository
-        
-        val inputStream = requireContext().contentResolver.openInputStream(uri)
-        val tempFile = java.io.File(requireContext().cacheDir, "temp_id_card.jpg")
-        tempFile.outputStream().use { inputStream?.copyTo(it) }
-        
-        lifecycleScope.launchWhenStarted {
-            try {
-                repository.uploadVerificationID(tempFile)
-                Toast.makeText(context, "Verification ID submitted to Admin!", Toast.LENGTH_LONG).show()
-            } catch (e: Exception) {
-                Toast.makeText(context, "Submission failed: ${e.message}", Toast.LENGTH_SHORT).show()
+        // Update sidebar profile image
+        val imageUrl = user.profileImageUrl
+        if (!imageUrl.isNullOrEmpty()) {
+            val fullUrl = if (imageUrl.startsWith("http")) imageUrl
+            else "${AppConfig.BASE_URL}${imageUrl}"
+            val navImageView =
+                headerView.findViewById<android.widget.ImageView>(R.id.nav_header_image)
+            if (navImageView != null) {
+                com.bumptech.glide.Glide.with(this)
+                    .load(fullUrl)
+                    .placeholder(R.mipmap.ic_launcher_round)
+                    .circleCrop()
+                    .into(navImageView)
             }
         }
     }
 
-    private fun showEditProfileDialog(viewModel: ProfileViewModel) {
+    private fun uploadVerification(uri: android.net.Uri) {
+        val inputStream = requireContext().contentResolver.openInputStream(uri)
+        val tempFile = java.io.File(requireContext().cacheDir, "temp_id_card.jpg")
+        tempFile.outputStream().use { inputStream?.copyTo(it) }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            try {
+                profileViewModel.uploadVerificationID(tempFile) {
+                    Toast.makeText(context, R.string.verification_id_submit_success, Toast.LENGTH_LONG).show()
+                }
+            } catch (e: Exception) {
+                Toast.makeText(
+                    context,
+                    getString(R.string.verification_id_submit_failed, e.message),
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
+    }
+
+    private fun showEditProfileDialog() {
         val dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_edit_profile, null)
         val etName = dialogView.findViewById<com.google.android.material.textfield.TextInputEditText>(R.id.et_edit_name)
         val etCollege = dialogView.findViewById<com.google.android.material.textfield.TextInputEditText>(R.id.et_edit_college)
         val etPhone = dialogView.findViewById<com.google.android.material.textfield.TextInputEditText>(R.id.et_edit_phone)
         val etAddress = dialogView.findViewById<com.google.android.material.textfield.TextInputEditText>(R.id.et_edit_address)
         val etInterests = dialogView.findViewById<com.google.android.material.textfield.TextInputEditText>(R.id.et_edit_interests)
-        val btnSave = dialogView.findViewById<android.widget.Button>(R.id.btn_save_edit)
+        val btnSave = dialogView.findViewById<com.google.android.material.button.MaterialButton>(R.id.btn_save_edit)
 
-        val currentUser = viewModel.user.value
+        val currentUser = profileViewModel.user.value
         currentUser?.let {
             etName.setText(it.fullName)
             etCollege.setText(it.collegeName)
@@ -203,19 +208,31 @@ class ProfileFragment : Fragment() {
             etInterests.setText(it.interests)
         }
 
-        val dialog = androidx.appcompat.app.AlertDialog.Builder(requireContext())
+        val dialog = androidx.appcompat.app.AlertDialog.Builder(
+            requireContext(),
+            com.google.android.material.R.style.ThemeOverlay_MaterialComponents_MaterialAlertDialog_Centered
+        )
             .setView(dialogView)
             .create()
 
+        // Apply rounded corners to dialog window
+        dialog.window?.apply {
+            setBackgroundDrawable(android.graphics.drawable.ColorDrawable(android.graphics.Color.TRANSPARENT))
+            setLayout(
+                (resources.displayMetrics.widthPixels * 0.92).toInt(),
+                android.view.ViewGroup.LayoutParams.WRAP_CONTENT
+            )
+        }
+
         btnSave.setOnClickListener {
             val req = com.example.eventapp.network.models.UserUpdateRequest(
-                fullName = etName.text.toString(),
-                collegeName = etCollege.text.toString(),
-                phoneNumber = etPhone.text.toString(),
-                address = etAddress.text.toString(),
-                interests = etInterests.text.toString()
+                fullName = etName.text.toString().ifBlank { null },
+                collegeName = etCollege.text.toString().ifBlank { null },
+                phoneNumber = etPhone.text.toString().ifBlank { null },
+                address = etAddress.text.toString().ifBlank { null },
+                interests = etInterests.text.toString().ifBlank { null }
             )
-            viewModel.updateProfile(req)
+            profileViewModel.updateProfile(req)
             dialog.dismiss()
         }
 
@@ -225,5 +242,17 @@ class ProfileFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    companion object {
+        /** Parses {"detail":"..."} style error bodies into human-readable messages */
+        fun tryParseDetailMessage(raw: String): String? {
+            return try {
+                val json = org.json.JSONObject(raw)
+                json.optString("detail").takeIf { it.isNotBlank() }
+            } catch (e: Exception) {
+                null
+            }
+        }
     }
 }

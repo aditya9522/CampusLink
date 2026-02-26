@@ -17,13 +17,15 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.example.eventapp.databinding.ActivityMainBinding
+import com.bumptech.glide.Glide
+import com.example.eventapp.network.AppConfig
 import com.example.eventapp.ui.profile.ProfileViewModel
 import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
-    private lateinit var binding: ActivityMainBinding
+    internal lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         enableEdgeToEdge()
@@ -52,6 +54,15 @@ class MainActivity : AppCompatActivity() {
         binding.navView?.setupWithNavController(navController)
         binding.appBarMain.contentMain.bottomNavView?.setupWithNavController(navController)
 
+        // Only show FAB on Events page
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            if (destination.id == R.id.nav_events) {
+                binding.appBarMain.fabCreateEvent?.show()
+            } else {
+                binding.appBarMain.fabCreateEvent?.hide()
+            }
+        }
+
         // Setup dynamic sidebar header
         setupNavHeader()
     }
@@ -65,17 +76,25 @@ class MainActivity : AppCompatActivity() {
         val profileViewModel = ViewModelProvider(this, factory).get(ProfileViewModel::class.java)
 
         val nameView = headerView.findViewById<android.widget.TextView>(R.id.nav_header_name)
-        val emailView = headerView.findViewById<android.widget.TextView>(R.id.nav_header_email)
         val collegeView = headerView.findViewById<android.widget.TextView>(R.id.nav_header_college)
+
+        val navImageView = headerView.findViewById<android.widget.ImageView>(R.id.nav_header_image)
 
         profileViewModel.user.observe(this) { user ->
             user?.let {
-                nameView.text = it.fullName ?: "Student"
-                emailView.text = it.email
-                collegeView.text = it.collegeName ?: "Class of 2026"
-                
-                // You can use Glide/Picasso to load the image if URL is present
-                // if (!it.profileImageUrl.isNullOrEmpty()) { ... }
+                nameView.text = it.fullName ?: getString(R.string.nav_header_user_name)
+                collegeView.text = it.collegeName ?: getString(R.string.nav_header_user_info)
+
+                val imageUrl = it.profileImageUrl
+                if (!imageUrl.isNullOrEmpty() && navImageView != null) {
+                    val fullUrl = if (imageUrl.startsWith("http")) imageUrl
+                    else "${AppConfig.BASE_URL}${imageUrl}"
+                    Glide.with(this)
+                        .load(fullUrl)
+                        .placeholder(R.mipmap.ic_launcher_round)
+                        .circleCrop()
+                        .into(navImageView)
+                }
             }
         }
 

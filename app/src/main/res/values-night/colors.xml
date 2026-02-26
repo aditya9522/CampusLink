@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Dark Mode Palette -->
+    <color name="primaryColor">#818CF8</color> <!-- Indigo 400 -->
+    <color name="primaryLightColor">#A5B4FC</color> <!-- Indigo 300 -->
+    <color name="primaryDarkColor">#6366F1</color> <!-- Indigo 500 -->
+    <color name="secondaryColor">#A78BFA</color> <!-- Violet 400 -->
+    <color name="secondaryLightColor">#C4B5FD</color> <!-- Violet 300 -->
+    <color name="secondaryDarkColor">#8B5CF6</color> <!-- Violet 500 -->
+
+    <!-- Dark Mode Neutral & Surfaces -->
+    <color name="background">#0F172A</color> <!-- Slate 900 -->
+    <color name="surface">#1E293B</color> <!-- Slate 800 -->
+    <color name="textPrimary">#F8FAFC</color> <!-- Slate 50 -->
+    <color name="textSecondary">#94A3B8</color> <!-- Slate 400 -->
+    <color name="dividerColor">#334155</color> <!-- Slate 700 -->
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="gray_200">#334155</color> <!-- Slate 700 -->
+</resources>

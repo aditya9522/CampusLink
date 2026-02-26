@@ -22,4 +22,4 @@ class MessageInDBBase(MessageBase):
 
 # Properties to return to client
 class Message(MessageInDBBase):
-    pass
+    sender_name: Optional[str] = None

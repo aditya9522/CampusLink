@@ -1,29 +1,35 @@
-<?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp"
-    app:cardCornerRadius="12dp"
-    app:cardElevation="4dp">
+    android:layout_marginHorizontal="16dp"
+    android:layout_marginVertical="8dp"
+    app:cardBackgroundColor="@color/surface"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="0dp"
+    app:strokeColor="@color/dividerColor"
+    app:strokeWidth="1dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="16dp">
+        android:padding="20dp">
 
         <TextView
             android:id="@+id/club_status_badge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="#DBEAFE"
-            android:paddingHorizontal="8dp"
-            android:paddingVertical="2dp"
+            android:background="@drawable/badge_category"
+            android:backgroundTint="@color/primaryColor"
+            android:paddingHorizontal="10dp"
+            android:paddingVertical="3dp"
             android:text="@string/label_recruiting"
-            android:textColor="#1E40AF"
+            android:textColor="@color/white"
             android:textSize="10sp"
             android:textStyle="bold"
+            android:letterSpacing="0.05"
+            android:textAllCaps="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -31,25 +37,30 @@
             android:id="@+id/club_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Club Name"
+            android:layout_marginEnd="12dp"
+            android:text="Coding Club"
             android:textColor="@color/textPrimary"
-            android:textSize="20sp"
+            android:textSize="22sp"
             android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="@id/club_status_badge"
+            android:letterSpacing="-0.02"
+            app:layout_constraintEnd_toStartOf="@id/club_status_badge"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/club_status_badge" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/club_category"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="6dp"
             android:background="@drawable/badge_category"
+            android:backgroundTint="@color/secondaryColor"
             android:paddingHorizontal="8dp"
             android:paddingVertical="2dp"
-            android:text="@string/label_category"
-            android:textColor="#FFFFFF"
+            android:text="Technical"
+            android:textColor="@color/white"
             android:textSize="10sp"
+            android:textStyle="bold"
+            android:textAllCaps="true"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/club_name" />
 
@@ -57,9 +68,11 @@
             android:id="@+id/club_description"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="Description"
+            android:layout_marginTop="12dp"
+            android:text="A community of students passionate about programming and open source development. Join us for workshops and hackathons."
             android:textColor="@color/textSecondary"
+            android:textSize="14sp"
+            android:lineSpacingExtra="2dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/club_category" />
@@ -68,7 +81,7 @@
             android:id="@+id/club_recruitment_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="16dp"
             android:gravity="center_vertical"
             android:orientation="horizontal"
             app:layout_constraintTop_toBottomOf="@id/club_description">
@@ -77,11 +90,12 @@
                 android:id="@+id/recruitment_badge"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="#DBEAFE"
+                android:background="@drawable/badge_category"
+                android:backgroundTint="@color/dividerColor"
                 android:paddingHorizontal="8dp"
                 android:paddingVertical="2dp"
-                android:text="@string/label_recruiting_volunteers"
-                android:textColor="#1E40AF"
+                android:text="Open for interns"
+                android:textColor="@color/textSecondary"
                 android:textSize="10sp"
                 android:textStyle="bold" />
 
@@ -89,39 +103,49 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
-                android:text="@string/label_next_meeting"
+                android:text="• Next: Friday 4pm"
                 android:textColor="@color/textSecondary"
                 android:textSize="11sp" />
         </LinearLayout>
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_view_club"
-            style="@style/Widget.MaterialComponents.Button.TextButton"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="@string/label_view_details"
-            android:textAllCaps="false"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/club_recruitment_layout" />
+            android:layout_marginTop="16dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@id/club_recruitment_layout"
+            app:layout_constraintBottom_toBottomOf="parent">
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_qr_checkin"
-            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:backgroundTint="@color/secondaryColor"
-            android:text="@string/label_qr_attendance"
-            android:textAllCaps="false"
-            android:textSize="12sp"
-            app:cornerRadius="20dp"
-            app:icon="@drawable/ic_camera_black_24dp"
-            app:iconSize="16dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/club_recruitment_layout" />
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_view_club"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/label_view_details"
+                android:textColor="@color/primaryColor"
+                android:textStyle="bold"
+                android:textAllCaps="false"
+                android:minHeight="0dp"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:paddingVertical="8dp"/>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</androidx.cardview.widget.CardView>
+            <View android:layout_width="0dp" android:layout_height="1dp" android:layout_weight="1"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_qr_checkin"
+                style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/primaryColor"
+                android:text="Check-in"
+                android:textAllCaps="false"
+                android:textSize="13sp"
+                app:cornerRadius="12dp"
+                app:icon="@drawable/ic_camera_black_24dp"
+                app:iconSize="18dp"
+                app:iconPadding="8dp" />
+        </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>

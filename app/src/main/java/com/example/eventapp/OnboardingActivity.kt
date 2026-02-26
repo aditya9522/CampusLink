@@ -33,10 +33,24 @@ class OnboardingActivity : AppCompatActivity() {
         binding.dropdownCountry.setAdapter(
             ArrayAdapter(this, android.R.layout.simple_list_item_1, countries)
         )
-        val colleges = resources.getStringArray(R.array.onboarding_colleges)
-        binding.dropdownCollege.setAdapter(
-            ArrayAdapter(this, android.R.layout.simple_list_item_1, colleges)
-        )
+
+        val repository = (application as EventApplication).repository
+        lifecycleScope.launch {
+            try {
+                val colleges = repository.getColleges()
+                val collegeNames = colleges.map { it.name }
+                binding.dropdownCollege.setAdapter(
+                    ArrayAdapter(this@OnboardingActivity, android.R.layout.simple_list_item_1, collegeNames)
+                )
+            } catch (e: Exception) {
+                Toast.makeText(this@OnboardingActivity, "Failed to load colleges", Toast.LENGTH_SHORT).show()
+                // Fallback to resources if API fails
+                val colleges = resources.getStringArray(R.array.onboarding_colleges)
+                binding.dropdownCollege.setAdapter(
+                    ArrayAdapter(this@OnboardingActivity, android.R.layout.simple_list_item_1, colleges)
+                )
+            }
+        }
     }
 
     private fun setupListeners() {
@@ -87,16 +101,17 @@ class OnboardingActivity : AppCompatActivity() {
         binding.btnNext.text = getString(R.string.onboarding_btn_finish)
     }
 
-    private fun completeOnboarding(collegeId: String) {
+    private fun completeOnboarding(studentId: String) {
         binding.verifyingOverlay.visibility = View.VISIBLE
         binding.btnNext.isEnabled = false
 
         val repository = (application as EventApplication).repository
+        val selectedCollege = binding.dropdownCollege.text.toString()
 
-        // Build synthetic credentials from college ID
-        val email    = "$collegeId@campus.edu"
-        val password = collegeId
-        val fullName = "CampusUser"
+        // Build synthetic credentials from student ID
+        val email    = "$studentId@campus.edu"
+        val password = studentId
+        val fullName = "Student $studentId"
 
         lifecycleScope.launch {
             try {
@@ -108,6 +123,17 @@ class OnboardingActivity : AppCompatActivity() {
                 }
 
                 repository.login(email, password)
+
+                // Update profile with college name
+                try {
+                    repository.updateCurrentUser(
+                        com.example.eventapp.network.models.UserUpdateRequest(
+                            collegeName = selectedCollege
+                        )
+                    )
+                } catch (e: Exception) {
+                    // Ignore failure of profile update if login succeeded
+                }
 
                 // Mark verified in shared prefs
                 getSharedPreferences("CampusLinkPrefs", MODE_PRIVATE)

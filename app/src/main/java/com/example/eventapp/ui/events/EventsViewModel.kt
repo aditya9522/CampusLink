@@ -48,7 +48,15 @@ class EventsViewModel(private val repository: AppRepository) : ViewModel() {
         }
     }
 
-    fun createEvent(title: String, description: String, location: String, onResult: (Boolean, String) -> Unit) {
+    fun createEvent(
+        title: String,
+        description: String,
+        location: String,
+        startTime: String? = null,
+        endTime: String? = null,
+        imageUrl: String? = null,
+        onResult: (Boolean, String) -> Unit
+    ) {
         viewModelScope.launch {
             try {
                 repository.createEvent(
@@ -56,15 +64,26 @@ class EventsViewModel(private val repository: AppRepository) : ViewModel() {
                         title = title,
                         description = description,
                         location = location,
-                        startTime = null, // Backend handles it or we can add pickers
-                        endTime = null,
-                        imageUrl = null
+                        startTime = startTime,
+                        endTime = endTime,
+                        imageUrl = imageUrl
                     )
                 )
                 onResult(true, "Event created successfully!")
                 loadEvents() // Refresh list
             } catch (e: Exception) {
                 onResult(false, e.message ?: "Failed to create event")
+            }
+        }
+    }
+
+    fun uploadEventImage(file: java.io.File, onResult: (Boolean, String) -> Unit) {
+        viewModelScope.launch {
+            try {
+                val url = repository.uploadEventImage(file)
+                onResult(true, url)
+            } catch (e: Exception) {
+                onResult(false, e.message ?: "Failed to upload image")
             }
         }
     }

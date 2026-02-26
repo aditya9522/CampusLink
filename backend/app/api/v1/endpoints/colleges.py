@@ -56,7 +56,6 @@ async def create_college(
 @router.get("/", response_model=List[CollegeResponse])
 async def read_colleges(
     db: AsyncSession = Depends(get_db),
-    current_user: UserModel = Depends(deps.get_current_active_superuser),
     skip: int = 0,
     limit: int = 100,
 ) -> Any:

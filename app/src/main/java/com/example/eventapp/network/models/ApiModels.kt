@@ -35,7 +35,8 @@ data class UserResponse(
     @SerializedName("is_active")         val isActive: Boolean,
     @SerializedName("is_superuser")      val isSuperuser: Boolean,
     @SerializedName("college_id")        val collegeId: Int?,
-    @SerializedName("role")              val role: String?
+    @SerializedName("events_count")      val eventsCount: Int = 0,
+    @SerializedName("buddies_count")     val buddiesCount: Int = 0
 )
 
 data class UserUpdateRequest(
@@ -115,6 +116,7 @@ data class TravelPlanCreateRequest(
 data class MessageResponse(
     val id: Int,
     @SerializedName("sender_id") val senderId: Int,
+    @SerializedName("sender_name") val senderName: String?,
     val content: String,
     val timestamp: String,
     val channel: String
@@ -142,4 +144,17 @@ data class MarketplaceItemResponse(
     @SerializedName("is_available") val isAvailable: Boolean,
     @SerializedName("created_at") val createdAt: String,
     @SerializedName("owner_name") val ownerName: String?
+)
+
+// ─── Shared/Misc ─────────────────────────────────────────────────────────────
+
+data class CollegeResponse(
+    val id: Int,
+    val name: String,
+    val slug: String,
+    val is_active: Boolean
+)
+
+data class ImageUrlResponse(
+    val url: String
 )

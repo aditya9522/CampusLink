@@ -1,6 +1,8 @@
 package com.example.eventapp.ui.clubs
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,6 +26,12 @@ class ClubsFragment : Fragment() {
     private var _binding: FragmentClubsBinding? = null
     private val binding get() = _binding!!
 
+    private lateinit var clubsViewModel: ClubsViewModel
+    private lateinit var adapter: ClubsAdapter
+
+    private var activeFilter = "All"
+    private var searchQuery = ""
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -31,17 +39,53 @@ class ClubsFragment : Fragment() {
     ): View {
         val repository = (requireActivity().application as EventApplication).repository
         val factory = AppViewModelFactory(repository)
-        val clubsViewModel = ViewModelProvider(this, factory)[ClubsViewModel::class.java]
+        clubsViewModel = ViewModelProvider(this, factory)[ClubsViewModel::class.java]
         _binding = FragmentClubsBinding.inflate(inflater, container, false)
-        val root: View = binding.root
 
-        val recyclerView = binding.recyclerviewClubs
-        val adapter = ClubsAdapter()
-        recyclerView.adapter = adapter
+        adapter = ClubsAdapter()
+        binding.recyclerviewClubs.adapter = adapter
+
         clubsViewModel.clubs.observe(viewLifecycleOwner) {
-            adapter.submitList(it)
+            applyFilters(it)
         }
-        return root
+
+        // ── Category filter chips ─────────────────────────────────────────────
+        binding.chipGroupClubs.setOnCheckedStateChangeListener { _, checkedIds ->
+            activeFilter = when {
+                checkedIds.contains(R.id.chip_club_tech) -> "Tech"
+                checkedIds.contains(R.id.chip_club_design) -> "Design"
+                else -> "All"
+            }
+            applyFilters(clubsViewModel.clubs.value ?: emptyList())
+        }
+
+        // ── Search ────────────────────────────────────────────────────────────
+        binding.editSearchClubs.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                searchQuery = s?.toString()?.trim() ?: ""
+                applyFilters(clubsViewModel.clubs.value ?: emptyList())
+            }
+            override fun afterTextChanged(s: Editable?) {}
+        })
+
+        return binding.root
+    }
+
+    private fun applyFilters(allClubs: List<Club>) {
+        val filtered = allClubs.filter { club ->
+            val matchesSearch = searchQuery.isEmpty() ||
+                club.name.contains(searchQuery, ignoreCase = true) ||
+                (club.description?.contains(searchQuery, ignoreCase = true) == true) ||
+                (club.category?.contains(searchQuery, ignoreCase = true) == true)
+
+            val matchesCategory = activeFilter == "All" ||
+                (club.category?.contains(activeFilter, ignoreCase = true) == true) ||
+                club.name.contains(activeFilter, ignoreCase = true)
+
+            matchesSearch && matchesCategory
+        }
+        adapter.submitList(filtered)
     }
 
     override fun onDestroyView() {
@@ -53,7 +97,6 @@ class ClubsFragment : Fragment() {
         ListAdapter<Club, ClubViewHolder>(object : DiffUtil.ItemCallback<Club>() {
             override fun areItemsTheSame(oldItem: Club, newItem: Club): Boolean =
                 oldItem.id == newItem.id
-
             override fun areContentsTheSame(oldItem: Club, newItem: Club): Boolean =
                 oldItem == newItem
         }) {
@@ -67,19 +110,27 @@ class ClubsFragment : Fragment() {
             val club = getItem(position)
             val context = holder.root.context
             holder.name.text = club.name
-            holder.category.text = club.category
+            holder.category.text = club.category ?: "General"
             holder.description.text = club.description
-            
+
             holder.root.setOnClickListener {
-                Toast.makeText(context, context.getString(R.string.club_opening_details_toast, club.name), Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    context,
+                    context.getString(R.string.club_opening_details_toast, club.name),
+                    Toast.LENGTH_SHORT
+                ).show()
             }
-            
+
             holder.qrButton.setOnClickListener {
                 holder.qrButton.findNavController().navigate(R.id.nav_scanner)
             }
-            
+
             holder.viewDetailsButton.setOnClickListener {
-                Toast.makeText(context, context.getString(R.string.club_recruitment_info, club.name), Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    context,
+                    context.getString(R.string.club_recruitment_info, club.name),
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
     }
